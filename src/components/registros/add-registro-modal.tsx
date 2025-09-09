@@ -88,18 +88,24 @@ export function AddRegistroModal({
 		onSuccess();
 	};
 
-	const handleClose = () => {
+	const handleOpenChange = (newOpen: boolean) => {
 		if (!isSubmitting) {
-			setOpen(false);
-			setFormData({ employee: "", salary: 0, admissionDate: "" });
-			setErrors({});
+			setOpen(newOpen);
+			if (!newOpen) {
+				setFormData({ employee: "", salary: 0, admissionDate: "" });
+				setErrors({});
+			}
 		}
 	};
 
 	return (
-		<Dialog open={open} onOpenChange={handleClose}>
+		<Dialog open={open} onOpenChange={handleOpenChange}>
 			<DialogTrigger asChild>
-				<Button className="gap-2" disabled={disabled}>
+				<Button
+					className="gap-2"
+					disabled={disabled}
+					data-testid="add-registro-button"
+				>
 					<Plus className="h-4 w-4" />
 					Adicionar novo registro
 				</Button>
@@ -183,7 +189,7 @@ export function AddRegistroModal({
 						<Button
 							type="button"
 							variant="outline"
-							onClick={handleClose}
+							onClick={() => handleOpenChange(false)}
 							disabled={isSubmitting}
 						>
 							Cancelar
