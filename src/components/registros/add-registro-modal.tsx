@@ -12,7 +12,10 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/dialog";
-import { CreateRegistroSchema, type CreateRegistroData } from "@/lib/validation";
+import {
+	CreateRegistroSchema,
+	type CreateRegistroData,
+} from "@/lib/validation";
 import { createRegistro } from "@/api/registros";
 
 type AddRegistroModalProps = {
@@ -20,7 +23,10 @@ type AddRegistroModalProps = {
 	disabled?: boolean;
 };
 
-export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps) {
+export function AddRegistroModal({
+	onSuccess,
+	disabled,
+}: AddRegistroModalProps) {
 	const [open, setOpen] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formData, setFormData] = useState<CreateRegistroData>({
@@ -28,18 +34,23 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 		salary: 0,
 		admissionDate: "",
 	});
-	const [errors, setErrors] = useState<Partial<Record<keyof CreateRegistroData, string>>>({});
+	const [errors, setErrors] = useState<
+		Partial<Record<keyof CreateRegistroData, string>>
+	>({});
 
-	const handleInputChange = (key: keyof CreateRegistroData, value: string | number) => {
-		setFormData(prev => ({ ...prev, [key]: value }));
+	const handleInputChange = (
+		key: keyof CreateRegistroData,
+		value: string | number
+	) => {
+		setFormData((prev) => ({ ...prev, [key]: value }));
 		if (errors[key]) {
-			setErrors(prev => ({ ...prev, [key]: undefined }));
+			setErrors((prev) => ({ ...prev, [key]: undefined }));
 		}
 	};
 
 	const validateForm = (): boolean => {
 		const result = CreateRegistroSchema.safeParse(formData);
-		
+
 		if (!result.success) {
 			const newErrors: Partial<Record<keyof CreateRegistroData, string>> = {};
 			result.error.issues.forEach((issue) => {
@@ -49,26 +60,26 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 			setErrors(newErrors);
 			return false;
 		}
-		
+
 		setErrors({});
 		return true;
 	};
 
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
-		
+
 		if (!validateForm()) return;
-		
+
 		setIsSubmitting(true);
-		
+
 		const [error] = await createRegistro(formData);
-		
+
 		if (error) {
 			toast.error(error.message || "Erro ao criar registro");
 			setIsSubmitting(false);
 			return;
 		}
-		
+
 		toast.success("Registro cadastrado com sucesso");
 		setFormData({ employee: "", salary: 0, admissionDate: "" });
 		setErrors({});
@@ -97,12 +108,16 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 				<DialogHeader>
 					<DialogTitle>Adicionar Novo Registro</DialogTitle>
 					<DialogDescription>
-						Preencha os campos abaixo para adicionar um novo registro de funcionário.
+						Preencha os campos abaixo para adicionar um novo registro de
+						funcionário.
 					</DialogDescription>
 				</DialogHeader>
 				<form onSubmit={handleSubmit} className="space-y-4">
 					<div>
-						<label htmlFor="employee" className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="employee"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Nome do Funcionário
 						</label>
 						<Input
@@ -118,7 +133,10 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 					</div>
 
 					<div>
-						<label htmlFor="salary" className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="salary"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Salário (R$)
 						</label>
 						<Input
@@ -127,7 +145,9 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 							min="0"
 							step="0.01"
 							value={formData.salary || ""}
-							onChange={(e) => handleInputChange("salary", parseFloat(e.target.value) || 0)}
+							onChange={(e) =>
+								handleInputChange("salary", parseFloat(e.target.value) || 0)
+							}
 							placeholder="0,00"
 							disabled={isSubmitting}
 						/>
@@ -137,18 +157,25 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 					</div>
 
 					<div>
-						<label htmlFor="admissionDate" className="block text-sm font-medium text-gray-700 mb-1">
+						<label
+							htmlFor="admissionDate"
+							className="block text-sm font-medium text-gray-700 mb-1"
+						>
 							Data de Admissão
 						</label>
 						<Input
 							id="admissionDate"
 							type="date"
 							value={formData.admissionDate}
-							onChange={(e) => handleInputChange("admissionDate", e.target.value)}
+							onChange={(e) =>
+								handleInputChange("admissionDate", e.target.value)
+							}
 							disabled={isSubmitting}
 						/>
 						{errors.admissionDate && (
-							<p className="mt-1 text-sm text-red-600">{errors.admissionDate}</p>
+							<p className="mt-1 text-sm text-red-600">
+								{errors.admissionDate}
+							</p>
 						)}
 					</div>
 

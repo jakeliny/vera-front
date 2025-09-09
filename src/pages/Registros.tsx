@@ -204,7 +204,10 @@ function Registros() {
 							<h2 className="text-lg font-semibold text-gray-900">
 								Lista de Registros
 							</h2>
-							<AddRegistroModal onSuccess={() => mutate()} disabled={isLoading} />
+							<AddRegistroModal
+								onSuccess={() => mutate()}
+								disabled={isLoading}
+							/>
 						</div>
 					</div>
 

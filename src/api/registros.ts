@@ -1,5 +1,9 @@
 import { fetcher, buildQueryParams, type FetchResult } from "./fetcher";
-import type { RegistrosResponse, RegistrosApiParams, Registro } from "@/types/registro";
+import type {
+	RegistrosResponse,
+	RegistrosApiParams,
+	Registro,
+} from "@/types/registro";
 import type { CreateRegistroData, UpdateRegistroData } from "@/lib/validation";
 
 const API_BASE_URL = "http://localhost:3000";
@@ -17,7 +21,7 @@ export const createRegistro = async (
 	data: CreateRegistroData
 ): Promise<FetchResult<Registro>> => {
 	const url = `${API_BASE_URL}/registros`;
-	
+
 	return fetcher(url, {
 		method: "POST",
 		body: data,
@@ -28,7 +32,7 @@ export const fetchRegistroById = async (
 	id: string
 ): Promise<FetchResult<Registro>> => {
 	const url = `${API_BASE_URL}/registros/${id}`;
-	
+
 	return fetcher(url);
 };
 
@@ -37,7 +41,7 @@ export const updateRegistro = async (
 	data: UpdateRegistroData
 ): Promise<FetchResult<Registro>> => {
 	const url = `${API_BASE_URL}/registros/${id}`;
-	
+
 	return fetcher(url, {
 		method: "PATCH",
 		body: data,
@@ -49,12 +53,12 @@ export const createRegistrosSWRKey = (
 ): string => {
 	const cleanParams = Object.entries(params)
 		.filter(
-			([_, value]) => value !== undefined && value !== null && value !== ""
+			([, value]) => value !== undefined && value !== null && value !== ""
 		)
 		.reduce((acc, [key, value]) => {
 			acc[key] = value;
 			return acc;
-		}, {} as Record<string, any>);
+		}, {} as Record<string, unknown>);
 
 	return JSON.stringify(["registros", cleanParams]);
 };

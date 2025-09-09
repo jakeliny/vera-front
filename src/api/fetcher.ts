@@ -2,18 +2,21 @@ export type FetchResult<T> = [Error, null] | [null, T];
 
 type RequestOptions = {
 	method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
-	body?: any;
+	body?: unknown;
 	headers?: Record<string, string>;
 };
 
-export const fetcher = async (url: string, options?: RequestOptions): Promise<FetchResult<any>> => {
+export const fetcher = async <T>(
+	url: string,
+	options?: RequestOptions
+): Promise<FetchResult<T>> => {
 	try {
 		const { method = "GET", body, headers = {} } = options || {};
-		
+
 		const requestHeaders: Record<string, string> = {
 			...headers,
 		};
-		
+
 		if (body && method !== "GET") {
 			requestHeaders["Content-Type"] = "application/json";
 		}
@@ -33,7 +36,7 @@ export const fetcher = async (url: string, options?: RequestOptions): Promise<Fe
 					null,
 				];
 			}
-			
+
 			let errorMessage = `HTTP Error: ${response.status} ${response.statusText}`;
 			try {
 				const errorData = await response.json();
@@ -43,7 +46,7 @@ export const fetcher = async (url: string, options?: RequestOptions): Promise<Fe
 			} catch {
 				// Ignore JSON parsing error for error message
 			}
-			
+
 			return [new Error(errorMessage), null];
 		}
 
@@ -64,10 +67,10 @@ export const fetcher = async (url: string, options?: RequestOptions): Promise<Fe
 	}
 };
 
-export const buildQueryParams = (params: Record<string, any>): string => {
+export const buildQueryParams = (params: Record<string, unknown>): string => {
 	const cleanParams = Object.entries(params)
 		.filter(
-			([_, value]) => value !== undefined && value !== null && value !== ""
+			([, value]) => value !== undefined && value !== null && value !== ""
 		)
 		.map(([key, value]) => [key, String(value)]);
 
