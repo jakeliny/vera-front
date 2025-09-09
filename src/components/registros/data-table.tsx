@@ -1,17 +1,9 @@
 import {
 	flexRender,
 	getCoreRowModel,
-	getFilteredRowModel,
-	getPaginationRowModel,
-	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import type {
-	ColumnDef,
-	ColumnFiltersState,
-	SortingState,
-	VisibilityState,
-} from "@tanstack/react-table";
+import type { ColumnDef, VisibilityState } from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
@@ -32,37 +24,48 @@ import {
 	TableRow,
 } from "@/components/ui/table";
 
+type PaginationInfo = {
+	page: number;
+	limit: number;
+	total: number;
+	totalPages: number;
+};
+
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
 	data: TData[];
+	pagination?: PaginationInfo;
+	onPageChange?: (page: number) => void;
+	onEmployeeFilterChange?: (value: string) => void;
+	employeeFilter?: string;
+	isLoading?: boolean;
 }
 
 export function DataTable<TData, TValue>({
 	columns,
 	data,
+	pagination,
+	onPageChange,
+	onEmployeeFilterChange,
+	employeeFilter = "",
+	isLoading = false,
 }: DataTableProps<TData, TValue>) {
-	const [sorting, setSorting] = useState<SortingState>([]);
-	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = useState({});
 
 	const table = useReactTable({
 		data,
 		columns,
-		onSortingChange: setSorting,
-		onColumnFiltersChange: setColumnFilters,
 		getCoreRowModel: getCoreRowModel(),
-		getPaginationRowModel: getPaginationRowModel(),
-		getSortedRowModel: getSortedRowModel(),
-		getFilteredRowModel: getFilteredRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
 		state: {
-			sorting,
-			columnFilters,
 			columnVisibility,
 			rowSelection,
 		},
+		manualPagination: true,
+		manualSorting: true,
+		manualFiltering: true,
 	});
 
 	return (
@@ -70,17 +73,14 @@ export function DataTable<TData, TValue>({
 			<div className="flex items-center py-4">
 				<Input
 					placeholder="Filtrar por funcionário..."
-					value={
-						(table.getColumn("employee")?.getFilterValue() as string) ?? ""
-					}
-					onChange={(event) =>
-						table.getColumn("employee")?.setFilterValue(event.target.value)
-					}
+					value={employeeFilter}
+					onChange={(event) => onEmployeeFilterChange?.(event.target.value)}
 					className="max-w-sm"
+					disabled={isLoading}
 				/>
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="outline" className="ml-auto">
+						<Button variant="outline" className="ml-auto" disabled={isLoading}>
 							Colunas <ChevronDown />
 						</Button>
 					</DropdownMenuTrigger>
@@ -126,7 +126,19 @@ export function DataTable<TData, TValue>({
 						))}
 					</TableHeader>
 					<TableBody>
-						{table.getRowModel().rows?.length ? (
+						{isLoading ? (
+							<TableRow>
+								<TableCell
+									colSpan={columns.length}
+									className="h-24 text-center"
+								>
+									<div className="flex items-center justify-center">
+										<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
+										<span className="ml-2">Carregando...</span>
+									</div>
+								</TableCell>
+							</TableRow>
+						) : table.getRowModel().rows?.length ? (
 							table.getRowModel().rows.map((row) => (
 								<TableRow
 									key={row.id}
@@ -155,30 +167,39 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			<div className="flex items-center justify-end space-x-2 py-4">
-				<div className="flex-1 text-sm text-muted-foreground">
-					{table.getFilteredSelectedRowModel().rows.length} de{" "}
-					{table.getFilteredRowModel().rows.length} linha(s) selecionada(s).
+			{pagination && (
+				<div className="flex items-center justify-between space-x-2 py-4">
+					<div className="flex-1 text-sm text-muted-foreground">
+						{table.getFilteredSelectedRowModel().rows.length} de{" "}
+						{pagination.total} linha(s) selecionada(s).
+					</div>
+					<div className="flex items-center space-x-6">
+						<div className="flex items-center space-x-2">
+							<p className="text-sm font-medium">
+								Página {pagination.page} de {pagination.totalPages}
+							</p>
+						</div>
+						<div className="flex items-center space-x-2">
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => onPageChange?.(pagination.page - 1)}
+								disabled={pagination.page <= 1 || isLoading}
+							>
+								Anterior
+							</Button>
+							<Button
+								variant="outline"
+								size="sm"
+								onClick={() => onPageChange?.(pagination.page + 1)}
+								disabled={pagination.page >= pagination.totalPages || isLoading}
+							>
+								Próximo
+							</Button>
+						</div>
+					</div>
 				</div>
-				<div className="space-x-2">
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.previousPage()}
-						disabled={!table.getCanPreviousPage()}
-					>
-						Anterior
-					</Button>
-					<Button
-						variant="outline"
-						size="sm"
-						onClick={() => table.nextPage()}
-						disabled={!table.getCanNextPage()}
-					>
-						Próximo
-					</Button>
-				</div>
-			</div>
+			)}
 		</div>
 	);
 }

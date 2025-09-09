@@ -1,56 +1,70 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/registros/data-table";
 import { columns } from "@/components/registros/columns";
-import type { Registro, RegistroFilters } from "@/types/registro";
-
-const mockData: Registro[] = [
-	{
-		id: "reg_001",
-		employee: "João Silva",
-		salary: 5000,
-		salaryCalculated: 5200,
-		startDate: "2024-01-15",
-		endDate: "2024-12-15",
-		status: "ativo",
-		createdAt: "2024-01-15T10:30:00Z",
-		updatedAt: "2024-01-15T10:30:00Z",
-	},
-	{
-		id: "reg_002",
-		employee: "Maria Santos",
-		salary: 4500,
-		salaryCalculated: 4650,
-		startDate: "2024-02-01",
-		endDate: "2024-11-30",
-		status: "ativo",
-		createdAt: "2024-02-01T09:15:00Z",
-		updatedAt: "2024-02-01T09:15:00Z",
-	},
-	{
-		id: "reg_003",
-		employee: "Pedro Costa",
-		salary: 3800,
-		salaryCalculated: 3900,
-		startDate: "2024-01-10",
-		endDate: "2024-06-10",
-		status: "inativo",
-		createdAt: "2024-01-10T14:20:00Z",
-		updatedAt: "2024-06-10T16:45:00Z",
-	},
-];
+import { useRegistros } from "@/hooks/useRegistros";
+import type { RegistroFilters, RegistrosApiParams } from "@/types/registro";
 
 function Registros() {
 	const [filters, setFilters] = useState<RegistroFilters>({});
+	const [pagination, setPagination] = useState({
+		page: 1,
+		limit: 10,
+	});
+
+	const apiParams = useMemo(
+		(): Partial<RegistrosApiParams> => ({
+			...filters,
+			...pagination,
+		}),
+		[filters, pagination]
+	);
+
+	const {
+		data,
+		pagination: paginationInfo,
+		error,
+		isLoading,
+		mutate,
+	} = useRegistros(apiParams);
 
 	const handleFilterChange = (key: keyof RegistroFilters, value: string) => {
 		setFilters((prev) => ({
 			...prev,
 			[key]: value || undefined,
 		}));
+		setPagination((prev) => ({ ...prev, page: 1 }));
 	};
+
+	const handlePageChange = (newPage: number) => {
+		setPagination((prev) => ({ ...prev, page: newPage }));
+	};
+
+	const handleEmployeeFilterChange = (value: string) => {
+		handleFilterChange("employee", value);
+	};
+
+	if (error) {
+		return (
+			<div className="min-h-screen p-8">
+				<div className="max-w-7xl mx-auto">
+					<div className="bg-red-50 border border-red-200 rounded-lg p-6">
+						<h2 className="text-lg font-semibold text-red-800 mb-2">
+							Erro ao carregar dados
+						</h2>
+						<p className="text-red-600 mb-4">
+							{error.message || "Ocorreu um erro ao buscar os registros."}
+						</p>
+						<Button onClick={() => mutate()} variant="outline">
+							Tentar novamente
+						</Button>
+					</div>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="min-h-screen p-8">
@@ -77,6 +91,7 @@ function Registros() {
 								placeholder="Nome do funcionário"
 								value={filters.employee || ""}
 								onChange={(e) => handleFilterChange("employee", e.target.value)}
+								disabled={isLoading}
 							/>
 						</div>
 
@@ -91,6 +106,7 @@ function Registros() {
 								onChange={(e) =>
 									handleFilterChange("startSalary", e.target.value)
 								}
+								disabled={isLoading}
 							/>
 						</div>
 
@@ -105,6 +121,7 @@ function Registros() {
 								onChange={(e) =>
 									handleFilterChange("endSalary", e.target.value)
 								}
+								disabled={isLoading}
 							/>
 						</div>
 
@@ -119,6 +136,7 @@ function Registros() {
 								onChange={(e) =>
 									handleFilterChange("startSalaryCalculated", e.target.value)
 								}
+								disabled={isLoading}
 							/>
 						</div>
 
@@ -133,6 +151,7 @@ function Registros() {
 								onChange={(e) =>
 									handleFilterChange("endSalaryCalculated", e.target.value)
 								}
+								disabled={isLoading}
 							/>
 						</div>
 
@@ -146,6 +165,7 @@ function Registros() {
 								onChange={(e) =>
 									handleFilterChange("startDate", e.target.value)
 								}
+								disabled={isLoading}
 							/>
 						</div>
 
@@ -157,14 +177,19 @@ function Registros() {
 								type="date"
 								value={filters.endDate || ""}
 								onChange={(e) => handleFilterChange("endDate", e.target.value)}
+								disabled={isLoading}
 							/>
 						</div>
 
 						<div className="flex items-end">
 							<Button
 								variant="outline"
-								onClick={() => setFilters({})}
+								onClick={() => {
+									setFilters({});
+									setPagination((prev) => ({ ...prev, page: 1 }));
+								}}
 								className="w-full"
+								disabled={isLoading}
 							>
 								Limpar Filtros
 							</Button>
@@ -179,7 +204,7 @@ function Registros() {
 							<h2 className="text-lg font-semibold text-gray-900">
 								Lista de Registros
 							</h2>
-							<Button className="gap-2">
+							<Button className="gap-2" disabled={isLoading}>
 								<Plus className="h-4 w-4" />
 								Adicionar novo registro
 							</Button>
@@ -187,7 +212,15 @@ function Registros() {
 					</div>
 
 					<div className="p-6">
-						<DataTable columns={columns} data={mockData} />
+						<DataTable
+							columns={columns}
+							data={data || []}
+							pagination={paginationInfo}
+							onPageChange={handlePageChange}
+							onEmployeeFilterChange={handleEmployeeFilterChange}
+							employeeFilter={filters.employee || ""}
+							isLoading={isLoading}
+						/>
 					</div>
 				</div>
 			</div>
