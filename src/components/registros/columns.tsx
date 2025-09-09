@@ -1,5 +1,7 @@
 import type { ColumnDef } from "@tanstack/react-table";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
+import { AiOutlineEye } from "react-icons/ai";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -75,7 +77,7 @@ export const columns: ColumnDef<Registro>[] = [
 		},
 	},
 	{
-		accessorKey: "salaryCalculated",
+		accessorKey: "calculatedSalary",
 		header: ({ column }) => {
 			return (
 				<Button
@@ -88,48 +90,45 @@ export const columns: ColumnDef<Registro>[] = [
 			);
 		},
 		cell: ({ row }) => {
-			const salaryCalculated = parseFloat(row.getValue("salaryCalculated"));
+			const calculatedSalary = parseFloat(row.getValue("calculatedSalary"));
 			const formatted = new Intl.NumberFormat("pt-BR", {
 				style: "currency",
 				currency: "BRL",
-			}).format(salaryCalculated);
+			}).format(calculatedSalary);
 			return <div className="text-right font-medium">{formatted}</div>;
 		},
 	},
 	{
-		accessorKey: "status",
-		header: "Status",
+		accessorKey: "admissionDate",
+		header: "Data de Admissão",
 		cell: ({ row }) => {
-			const status = row.getValue("status") as string;
+			const date = new Date(row.getValue("admissionDate"));
+			return <div>{date.toLocaleDateString("pt-BR")}</div>;
+		},
+	},
+	{
+		accessorKey: "createdAt",
+		header: "Data de Criação",
+		cell: ({ row }) => {
+			const date = new Date(row.getValue("createdAt"));
+			return <div>{date.toLocaleDateString("pt-BR")}</div>;
+		},
+	},
+	{
+		id: "view",
+		header: "Visualizar",
+		enableHiding: false,
+		cell: ({ row }) => {
+			const registro = row.original;
+
 			return (
-				<div
-					className={`capitalize ${
-						status === "ativo"
-							? "text-green-600"
-							: status === "inativo"
-							? "text-red-600"
-							: "text-yellow-600"
-					}`}
-				>
-					{status}
-				</div>
+				<Link to={`/registros/${registro.id}`}>
+					<Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+						<span className="sr-only">Ver detalhes</span>
+						<AiOutlineEye className="h-4 w-4" />
+					</Button>
+				</Link>
 			);
-		},
-	},
-	{
-		accessorKey: "startDate",
-		header: "Data Início",
-		cell: ({ row }) => {
-			const date = new Date(row.getValue("startDate"));
-			return <div>{date.toLocaleDateString("pt-BR")}</div>;
-		},
-	},
-	{
-		accessorKey: "endDate",
-		header: "Data Fim",
-		cell: ({ row }) => {
-			const date = new Date(row.getValue("endDate"));
-			return <div>{date.toLocaleDateString("pt-BR")}</div>;
 		},
 	},
 	{
