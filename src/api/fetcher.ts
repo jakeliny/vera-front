@@ -43,15 +43,32 @@ export const fetcher = async <T>(
 				if (errorData.message) {
 					errorMessage = errorData.message;
 				}
-			} catch {
-				// Ignore JSON parsing error for error message
+			} catch (error) {
+				console.error("Error parsing JSON:", error);
 			}
 
 			return [new Error(errorMessage), null];
 		}
 
-		const data = await response.json();
-		return [null, data] as [null, typeof data];
+		const contentLength = response.headers.get("content-length");
+		const contentType = response.headers.get("content-type");
+
+		if (
+			contentLength === "0" ||
+			(!contentType?.includes("application/json") && !contentLength)
+		) {
+			return [null, {} as T];
+		}
+
+		try {
+			const data = await response.json();
+			return [null, data] as [null, typeof data];
+		} catch (error) {
+			if (response.status >= 200 && response.status < 300) {
+				return [null, {} as T];
+			}
+			throw error;
+		}
 	} catch (error) {
 		const errorMessage =
 			error instanceof Error ? error.message : "Unknown error occurred";

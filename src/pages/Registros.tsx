@@ -10,8 +10,8 @@ import type { RegistroFilters, RegistrosApiParams } from "@/types/registro";
 function Registros() {
 	const [filters, setFilters] = useState<RegistroFilters>({});
 	const [pagination, setPagination] = useState({
-		page: 1,
-		limit: 10,
+		page: 0,
+		limit: 8,
 	});
 
 	const apiParams = useMemo(
