@@ -2,12 +2,10 @@ export type Registro = {
 	id: string;
 	employee: string;
 	salary: number;
-	salaryCalculated: number;
-	startDate: string;
-	endDate: string;
-	status: "ativo" | "inativo" | "pendente";
+	calculatedSalary: number;
+	admissionDate: string;
+	calculatedAdmissionDate: string;
 	createdAt: string;
-	updatedAt: string;
 };
 
 export type RegistroFilters = {

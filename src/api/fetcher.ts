@@ -1,8 +1,28 @@
 export type FetchResult<T> = [Error, null] | [null, T];
 
-export const fetcher = async (url: string): Promise<FetchResult<any>> => {
+type RequestOptions = {
+	method?: "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+	body?: any;
+	headers?: Record<string, string>;
+};
+
+export const fetcher = async (url: string, options?: RequestOptions): Promise<FetchResult<any>> => {
 	try {
-		const response = await fetch(url);
+		const { method = "GET", body, headers = {} } = options || {};
+		
+		const requestHeaders: Record<string, string> = {
+			...headers,
+		};
+		
+		if (body && method !== "GET") {
+			requestHeaders["Content-Type"] = "application/json";
+		}
+
+		const response = await fetch(url, {
+			method,
+			headers: requestHeaders,
+			body: body ? JSON.stringify(body) : undefined,
+		});
 
 		if (!response.ok) {
 			if (response.status === 404 || response.status === 0) {
@@ -13,10 +33,18 @@ export const fetcher = async (url: string): Promise<FetchResult<any>> => {
 					null,
 				];
 			}
-			return [
-				new Error(`HTTP Error: ${response.status} ${response.statusText}`),
-				null,
-			];
+			
+			let errorMessage = `HTTP Error: ${response.status} ${response.statusText}`;
+			try {
+				const errorData = await response.json();
+				if (errorData.message) {
+					errorMessage = errorData.message;
+				}
+			} catch {
+				// Ignore JSON parsing error for error message
+			}
+			
+			return [new Error(errorMessage), null];
 		}
 
 		const data = await response.json();

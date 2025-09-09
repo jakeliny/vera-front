@@ -1,5 +1,6 @@
-import { fetcher, buildQueryParams, FetchResult } from "./fetcher";
-import type { RegistrosResponse, RegistrosApiParams } from "@/types/registro";
+import { fetcher, buildQueryParams, type FetchResult } from "./fetcher";
+import type { RegistrosResponse, RegistrosApiParams, Registro } from "@/types/registro";
+import type { CreateRegistroData, UpdateRegistroData } from "@/lib/validation";
 
 const API_BASE_URL = "http://localhost:3000";
 
@@ -10,6 +11,37 @@ export const fetchRegistros = async (
 	const url = `${API_BASE_URL}/registros${queryString}`;
 
 	return fetcher(url);
+};
+
+export const createRegistro = async (
+	data: CreateRegistroData
+): Promise<FetchResult<Registro>> => {
+	const url = `${API_BASE_URL}/registros`;
+	
+	return fetcher(url, {
+		method: "POST",
+		body: data,
+	});
+};
+
+export const fetchRegistroById = async (
+	id: string
+): Promise<FetchResult<Registro>> => {
+	const url = `${API_BASE_URL}/registros/${id}`;
+	
+	return fetcher(url);
+};
+
+export const updateRegistro = async (
+	id: string,
+	data: UpdateRegistroData
+): Promise<FetchResult<Registro>> => {
+	const url = `${API_BASE_URL}/registros/${id}`;
+	
+	return fetcher(url, {
+		method: "PATCH",
+		body: data,
+	});
 };
 
 export const createRegistrosSWRKey = (
