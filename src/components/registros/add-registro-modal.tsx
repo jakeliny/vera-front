@@ -42,9 +42,9 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 		
 		if (!result.success) {
 			const newErrors: Partial<Record<keyof CreateRegistroData, string>> = {};
-			result.error.errors.forEach(error => {
-				const field = error.path[0] as keyof CreateRegistroData;
-				newErrors[field] = error.message;
+			result.error.issues.forEach((issue) => {
+				const field = issue.path[0] as keyof CreateRegistroData;
+				newErrors[field] = issue.message;
 			});
 			setErrors(newErrors);
 			return false;
@@ -61,7 +61,7 @@ export function AddRegistroModal({ onSuccess, disabled }: AddRegistroModalProps)
 		
 		setIsSubmitting(true);
 		
-		const [error, data] = await createRegistro(formData);
+		const [error] = await createRegistro(formData);
 		
 		if (error) {
 			toast.error(error.message || "Erro ao criar registro");
