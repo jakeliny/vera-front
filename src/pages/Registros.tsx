@@ -1,9 +1,9 @@
 import { useState, useMemo } from "react";
-import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { DataTable } from "@/components/registros/data-table";
 import { columns } from "@/components/registros/columns";
+import { AddRegistroModal } from "@/components/registros/add-registro-modal";
 import { useRegistros } from "@/hooks/useRegistros";
 import type { RegistroFilters, RegistrosApiParams } from "@/types/registro";
 
@@ -204,10 +204,7 @@ function Registros() {
 							<h2 className="text-lg font-semibold text-gray-900">
 								Lista de Registros
 							</h2>
-							<Button className="gap-2" disabled={isLoading}>
-								<Plus className="h-4 w-4" />
-								Adicionar novo registro
-							</Button>
+							<AddRegistroModal onSuccess={() => mutate()} disabled={isLoading} />
 						</div>
 					</div>
 
