@@ -95,7 +95,7 @@ describe("Registros Management", () => {
 
 		cy.contains("ID").parent().should("contain.text", "ID");
 		cy.contains("Data de Criação").parent().should("be.visible");
-		cy.contains("Salário Calculado").parent().should("be.visible");
+		cy.contains("Salário Calculado (35%) ").parent().should("be.visible");
 		cy.contains("Data de Admissão Calculada").parent().should("be.visible");
 
 		cy.contains("ID")
@@ -295,9 +295,9 @@ describe("Registros Management", () => {
 
 		cy.contains("O salário deve ser um valor positivo").should("be.visible");
 
-		cy.get("#salary").type("1000");
+		cy.get("#salary").type("0");
 		cy.get('button[type="submit"]').click();
-		cy.contains("O salário mínimo é R$ 1.300,00").should("be.visible");
+		cy.contains("O salário mínimo é R$ 1,00").should("be.visible");
 
 		const futureDate = new Date();
 		futureDate.setDate(futureDate.getDate() + 1);
@@ -323,7 +323,7 @@ describe("Registros Management", () => {
 		cy.get("table thead").contains("Salário").click();
 		cy.get("table tbody tr").should("exist");
 
-		cy.get("table thead").contains("Salário Calculado").click();
+		cy.get("table thead").contains("Salário Calculado (35%)").click();
 		cy.get("table tbody tr").should("exist");
 
 		cy.get("table thead").contains("Data de Admissão").click();
@@ -357,7 +357,7 @@ describe("Registros Management", () => {
 			expect(interception.request.url).to.include("order=asc");
 		});
 
-		cy.get("table thead").contains("Salário Calculado").click();
+		cy.get("table thead").contains("Salário Calculado (35%) ").click();
 		cy.wait("@getRegistros").then((interception) => {
 			expect(interception.request.url).to.include("orderBy=calculatedSalary");
 			expect(interception.request.url).to.include("order=asc");

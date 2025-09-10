@@ -141,7 +141,7 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Calculado Inicial
+								Salário Calculado (35%) Inicial
 							</label>
 							<Input
 								type="number"
@@ -156,7 +156,7 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Calculado Final
+								Salário Calculado (35%) Final
 							</label>
 							<Input
 								type="number"
@@ -171,7 +171,7 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Data Inicial
+								Data Admissão Inicial
 							</label>
 							<Input
 								type="date"
@@ -183,7 +183,7 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Data Final
+								Data Admissão Final
 							</label>
 							<Input
 								type="date"

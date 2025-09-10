@@ -20,7 +20,9 @@ export const columns: ColumnDef<Registro>[] = [
 			);
 		},
 		cell: ({ row }) => (
-			<div className="font-medium">{row.getValue("employee")}</div>
+			<div className="text-left px-4 font-medium">
+				{row.getValue("employee")}
+			</div>
 		),
 	},
 	{
@@ -42,29 +44,19 @@ export const columns: ColumnDef<Registro>[] = [
 				style: "currency",
 				currency: "BRL",
 			}).format(salary);
-			return <div className="text-right font-medium">{formatted}</div>;
+			return <div className="text-left px-4 font-medium">{formatted}</div>;
 		},
 	},
 	{
 		accessorKey: "calculatedSalary",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Salário Calculado
-					<ArrowUpDown />
-				</Button>
-			);
-		},
+		header: "Salário Calculado (35%)",
 		cell: ({ row }) => {
 			const calculatedSalary = parseFloat(row.getValue("calculatedSalary"));
 			const formatted = new Intl.NumberFormat("pt-BR", {
 				style: "currency",
 				currency: "BRL",
 			}).format(calculatedSalary);
-			return <div className="text-right font-medium">{formatted}</div>;
+			return <div className="text-left font-medium">{formatted}</div>;
 		},
 	},
 	{
@@ -82,26 +74,21 @@ export const columns: ColumnDef<Registro>[] = [
 		},
 		cell: ({ row }) => {
 			const date = new Date(row.getValue("admissionDate"));
-			return <div>{date.toLocaleDateString("pt-BR")}</div>;
+			return (
+				<div className="text-left px-4 font-medium">
+					{date.toLocaleDateString("pt-BR")}
+				</div>
+			);
 		},
 	},
 	{
-		accessorKey: "createdAt",
-		header: ({ column }) => {
-			return (
-				<Button
-					variant="ghost"
-					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-				>
-					Data de Criação
-					<ArrowUpDown />
-				</Button>
-			);
-		},
-		cell: ({ row }) => {
-			const date = new Date(row.getValue("createdAt"));
-			return <div>{date.toLocaleDateString("pt-BR")}</div>;
-		},
+		accessorKey: "calculatedAdmissionDate",
+		header: "Data de Admissão Calculada",
+		cell: ({ row }) => (
+			<div className="text-left font-medium">
+				{row.getValue("calculatedAdmissionDate")}
+			</div>
+		),
 	},
 	{
 		id: "view",
@@ -111,12 +98,14 @@ export const columns: ColumnDef<Registro>[] = [
 			const registro = row.original;
 
 			return (
-				<Link to={`/registros/${registro.id}`}>
-					<Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-						<span className="sr-only">Ver detalhes</span>
-						<AiOutlineEye className="h-4 w-4" />
-					</Button>
-				</Link>
+				<div className="text-left px-4">
+					<Link to={`/registros/${registro.id}`}>
+						<Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+							<span className="sr-only">Ver detalhes</span>
+							<AiOutlineEye className="h-4 w-4" />
+						</Button>
+					</Link>
+				</div>
 			);
 		},
 	},

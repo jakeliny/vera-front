@@ -4,7 +4,7 @@ export const ErrorMessages = {
 	DATE_FORMAT_INVALID: "Formato de data inválido. Use YYYY-MM-DD.",
 	ADMISSION_DATE_FUTURE: "A data de admissão não pode estar no futuro.",
 	SALARY_MUST_BE_POSITIVE: "O salário deve ser um valor positivo.",
-	SALARY_MINIMUM: "O salário mínimo é R$ 1.300,00.",
+	SALARY_MINIMUM: "O salário mínimo é R$ 1,00.",
 	SALARY_MAXIMUM: "O salário máximo é R$ 100.000,00.",
 	EMPLOYEE_NAME_REQUIRED: "O nome do funcionário é obrigatório.",
 	EMPLOYEE_NAME_MAX_LENGTH:

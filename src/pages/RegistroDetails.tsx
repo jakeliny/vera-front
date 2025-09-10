@@ -259,7 +259,7 @@ function RegistroDetails() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Calculado (R$)
+								Salário Calculado (35%)
 							</label>
 							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
 								{new Intl.NumberFormat("pt-BR", {
