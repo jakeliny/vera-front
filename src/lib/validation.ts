@@ -11,6 +11,11 @@ export const ErrorMessages = {
 		"O nome do funcionário deve ter no máximo 30 caracteres.",
 };
 
+const salary = {
+	minimum: 1,
+	maximum: 100000,
+};
+
 export const CreateRegistroSchema = z.object({
 	admissionDate: z
 		.string()
@@ -24,8 +29,8 @@ export const CreateRegistroSchema = z.object({
 	salary: z
 		.number()
 		.positive(ErrorMessages.SALARY_MUST_BE_POSITIVE)
-		.min(1300, ErrorMessages.SALARY_MINIMUM)
-		.max(100000, ErrorMessages.SALARY_MAXIMUM),
+		.min(salary.minimum, ErrorMessages.SALARY_MINIMUM)
+		.max(salary.maximum, ErrorMessages.SALARY_MAXIMUM),
 	employee: z
 		.string()
 		.min(1, ErrorMessages.EMPLOYEE_NAME_REQUIRED)
@@ -46,8 +51,8 @@ export const UpdateRegistroSchema = z.object({
 	salary: z
 		.number()
 		.positive(ErrorMessages.SALARY_MUST_BE_POSITIVE)
-		.min(1300, ErrorMessages.SALARY_MINIMUM)
-		.max(100000, ErrorMessages.SALARY_MAXIMUM)
+		.min(salary.minimum, ErrorMessages.SALARY_MINIMUM)
+		.max(salary.maximum, ErrorMessages.SALARY_MAXIMUM)
 		.optional(),
 	employee: z
 		.string()
