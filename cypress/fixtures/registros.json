@@ -1,0 +1,37 @@
+{
+  "data": [
+    {
+      "id": "1",
+      "employee": "Test Employee 1",
+      "salary": 5000,
+      "calculatedSalary": 5500,
+      "admissionDate": "2024-01-15",
+      "calculatedAdmissionDate": "2024-01-15",
+      "createdAt": "2024-01-15T10:00:00Z"
+    },
+    {
+      "id": "2", 
+      "employee": "Test Employee 2",
+      "salary": 6000,
+      "calculatedSalary": 6600,
+      "admissionDate": "2024-02-01",
+      "calculatedAdmissionDate": "2024-02-01",
+      "createdAt": "2024-02-01T10:00:00Z"
+    },
+    {
+      "id": "3",
+      "employee": "Test Employee 3", 
+      "salary": 4500,
+      "calculatedSalary": 4950,
+      "admissionDate": "2024-03-10",
+      "calculatedAdmissionDate": "2024-03-10",
+      "createdAt": "2024-03-10T10:00:00Z"
+    }
+  ],
+  "pagination": {
+    "total": 3,
+    "page": 1,
+    "limit": 8,
+    "totalPages": 1
+  }
+}
