@@ -3,11 +3,16 @@ import {
 	getCoreRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import type { ColumnDef, VisibilityState } from "@tanstack/react-table";
+import type {
+	ColumnDef,
+	VisibilityState,
+	SortingState,
+} from "@tanstack/react-table";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import type { RegistrosSortField, SortDirection } from "@/types/registro";
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
@@ -39,6 +44,12 @@ interface DataTableProps<TData, TValue> {
 	onEmployeeFilterChange?: (value: string) => void;
 	employeeFilter?: string;
 	isLoading?: boolean;
+	orderBy?: RegistrosSortField;
+	order?: SortDirection;
+	onSortChange?: (
+		orderBy: RegistrosSortField | undefined,
+		order: SortDirection | undefined
+	) => void;
 }
 
 export function DataTable<TData, TValue>({
@@ -49,9 +60,24 @@ export function DataTable<TData, TValue>({
 	onEmployeeFilterChange,
 	employeeFilter = "",
 	isLoading = false,
+	orderBy,
+	order,
+	onSortChange,
 }: DataTableProps<TData, TValue>) {
 	const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
 	const [rowSelection, setRowSelection] = useState({});
+
+	const sorting: SortingState =
+		orderBy && order ? [{ id: orderBy, desc: order === "desc" }] : [];
+
+	const handleSortingChange = (sortingState: SortingState) => {
+		if (sortingState.length === 0) {
+			onSortChange?.(undefined, undefined);
+		} else {
+			const { id, desc } = sortingState[0];
+			onSortChange?.(id as RegistrosSortField, desc ? "desc" : "asc");
+		}
+	};
 
 	const table = useReactTable({
 		data,
@@ -59,9 +85,15 @@ export function DataTable<TData, TValue>({
 		getCoreRowModel: getCoreRowModel(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: setRowSelection,
+		onSortingChange: (updater) => {
+			const newSorting =
+				typeof updater === "function" ? updater(sorting) : updater;
+			handleSortingChange(newSorting);
+		},
 		state: {
 			columnVisibility,
 			rowSelection,
+			sorting,
 		},
 		manualPagination: true,
 		manualSorting: true,

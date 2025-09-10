@@ -100,7 +100,17 @@ export const columns: ColumnDef<Registro>[] = [
 	},
 	{
 		accessorKey: "admissionDate",
-		header: "Data de Admissão",
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Data de Admissão
+					<ArrowUpDown />
+				</Button>
+			);
+		},
 		cell: ({ row }) => {
 			const date = new Date(row.getValue("admissionDate"));
 			return <div>{date.toLocaleDateString("pt-BR")}</div>;
@@ -108,7 +118,17 @@ export const columns: ColumnDef<Registro>[] = [
 	},
 	{
 		accessorKey: "createdAt",
-		header: "Data de Criação",
+		header: ({ column }) => {
+			return (
+				<Button
+					variant="ghost"
+					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+				>
+					Data de Criação
+					<ArrowUpDown />
+				</Button>
+			);
+		},
 		cell: ({ row }) => {
 			const date = new Date(row.getValue("createdAt"));
 			return <div>{date.toLocaleDateString("pt-BR")}</div>;

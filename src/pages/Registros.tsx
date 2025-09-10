@@ -6,7 +6,12 @@ import { columns } from "@/components/registros/columns";
 import { AddRegistroModal } from "@/components/registros/add-registro-modal";
 import { useRegistros } from "@/hooks/useRegistros";
 import { useDebounce } from "@/hooks/useDebounce";
-import type { RegistroFilters, RegistrosApiParams } from "@/types/registro";
+import type {
+	RegistroFilters,
+	RegistrosApiParams,
+	RegistrosSortField,
+	SortDirection,
+} from "@/types/registro";
 
 function Registros() {
 	const [inputValues, setInputValues] = useState<RegistroFilters>({});
@@ -14,6 +19,8 @@ function Registros() {
 		page: 0,
 		limit: 8,
 	});
+	const [orderBy, setOrderBy] = useState<RegistrosSortField | undefined>();
+	const [order, setOrder] = useState<SortDirection | undefined>();
 
 	const debouncedFilters = useDebounce(inputValues, 500);
 
@@ -21,8 +28,9 @@ function Registros() {
 		(): Partial<RegistrosApiParams> => ({
 			...debouncedFilters,
 			...pagination,
+			...(orderBy && order && { orderBy, order }),
 		}),
-		[debouncedFilters, pagination]
+		[debouncedFilters, pagination, orderBy, order]
 	);
 
 	const {
@@ -47,6 +55,15 @@ function Registros() {
 
 	const handleEmployeeFilterChange = (value: string) => {
 		handleInputChange("employee", value);
+	};
+
+	const handleSortChange = (
+		newOrderBy: RegistrosSortField | undefined,
+		newOrder: SortDirection | undefined
+	) => {
+		setOrderBy(newOrderBy);
+		setOrder(newOrder);
+		setPagination((prev) => ({ ...prev, page: 0 }));
 	};
 
 	if (error) {
@@ -219,6 +236,9 @@ function Registros() {
 							onEmployeeFilterChange={handleEmployeeFilterChange}
 							employeeFilter={inputValues.employee || ""}
 							isLoading={isLoading}
+							orderBy={orderBy}
+							order={order}
+							onSortChange={handleSortChange}
 						/>
 					</div>
 				</div>

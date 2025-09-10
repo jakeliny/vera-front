@@ -21,17 +21,16 @@ export type RegistroFilters = {
 export type RegistrosSortField =
 	| "employee"
 	| "salary"
-	| "salaryCalculated"
-	| "startDate"
-	| "endDate"
-	| "status";
+	| "calculatedSalary"
+	| "admissionDate"
+	| "createdAt";
 export type SortDirection = "asc" | "desc";
 
 export type RegistrosPagination = {
 	page: number;
 	limit: number;
-	sortBy?: RegistrosSortField;
-	sortDirection?: SortDirection;
+	orderBy?: RegistrosSortField;
+	order?: SortDirection;
 };
 
 export type RegistrosResponse = {
