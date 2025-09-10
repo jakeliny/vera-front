@@ -2,7 +2,7 @@
 
 V.E.R.A é um acrônimo para **Valor Efetivo de Renda Analisada**, um serviço que processa a renda e o tempo de trabalho de um profissional para embasar análises de crédito. A aplicação foi desenvolvida com uma abordagem componentizada e orientada a dados, projetada para ser performática e de fácil manutenção.
 
-## Technology Stack
+## Stack de Tecnologia
 
 - **React** - Biblioteca de JavaScript para criar interfaces de usuário
 - **TypeScript** - Tipagem estática para melhorar a experiência de desenvolvimento
@@ -36,7 +36,7 @@ src/
 - **Ordenação por Colunas**: Todas as colunas com sort asc/desc
 - **Design Responsivo**: Abordagem mobile-first com breakpoints
 - **Validação de Dados**: Validação client-side com schemas Zod
-- **Atualizações Otimistas**: Gerenciamento de cache do SWR para atualizações em tempo real
+- **Atualizações e Cache**: Gerenciamento de cache do SWR para atualizações em tempo real
 - **Modo View-Only**: Suporte a dados de mock para visualizar a UI sem backend
 - **Testes End-to-End**: Cobertura de testes com Cypress
 
