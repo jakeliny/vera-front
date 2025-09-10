@@ -35,7 +35,7 @@ function Registros() {
 			...prev,
 			[key]: value || undefined,
 		}));
-		setPagination((prev) => ({ ...prev, page: 1 }));
+		setPagination((prev) => ({ ...prev, page: 0 }));
 	};
 
 	const handlePageChange = (newPage: number) => {
@@ -186,7 +186,7 @@ function Registros() {
 								variant="outline"
 								onClick={() => {
 									setFilters({});
-									setPagination((prev) => ({ ...prev, page: 1 }));
+									setPagination((prev) => ({ ...prev, page: 0 }));
 								}}
 								className="w-full"
 								disabled={isLoading}
