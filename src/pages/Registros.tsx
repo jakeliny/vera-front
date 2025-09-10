@@ -5,21 +5,24 @@ import { DataTable } from "@/components/registros/data-table";
 import { columns } from "@/components/registros/columns";
 import { AddRegistroModal } from "@/components/registros/add-registro-modal";
 import { useRegistros } from "@/hooks/useRegistros";
+import { useDebounce } from "@/hooks/useDebounce";
 import type { RegistroFilters, RegistrosApiParams } from "@/types/registro";
 
 function Registros() {
-	const [filters, setFilters] = useState<RegistroFilters>({});
+	const [inputValues, setInputValues] = useState<RegistroFilters>({});
 	const [pagination, setPagination] = useState({
 		page: 0,
 		limit: 8,
 	});
 
+	const debouncedFilters = useDebounce(inputValues, 500);
+
 	const apiParams = useMemo(
 		(): Partial<RegistrosApiParams> => ({
-			...filters,
+			...debouncedFilters,
 			...pagination,
 		}),
-		[filters, pagination]
+		[debouncedFilters, pagination]
 	);
 
 	const {
@@ -30,8 +33,8 @@ function Registros() {
 		mutate,
 	} = useRegistros(apiParams);
 
-	const handleFilterChange = (key: keyof RegistroFilters, value: string) => {
-		setFilters((prev) => ({
+	const handleInputChange = (key: keyof RegistroFilters, value: string) => {
+		setInputValues((prev) => ({
 			...prev,
 			[key]: value || undefined,
 		}));
@@ -43,7 +46,7 @@ function Registros() {
 	};
 
 	const handleEmployeeFilterChange = (value: string) => {
-		handleFilterChange("employee", value);
+		handleInputChange("employee", value);
 	};
 
 	if (error) {
@@ -89,8 +92,8 @@ function Registros() {
 							</label>
 							<Input
 								placeholder="Nome do funcionário"
-								value={filters.employee || ""}
-								onChange={(e) => handleFilterChange("employee", e.target.value)}
+								value={inputValues.employee || ""}
+								onChange={(e) => handleInputChange("employee", e.target.value)}
 								disabled={isLoading}
 							/>
 						</div>
@@ -102,9 +105,9 @@ function Registros() {
 							<Input
 								type="number"
 								placeholder="R$ 0,00"
-								value={filters.startSalary || ""}
+								value={inputValues.startSalary || ""}
 								onChange={(e) =>
-									handleFilterChange("startSalary", e.target.value)
+									handleInputChange("startSalary", e.target.value)
 								}
 								disabled={isLoading}
 							/>
@@ -117,10 +120,8 @@ function Registros() {
 							<Input
 								type="number"
 								placeholder="R$ 0,00"
-								value={filters.endSalary || ""}
-								onChange={(e) =>
-									handleFilterChange("endSalary", e.target.value)
-								}
+								value={inputValues.endSalary || ""}
+								onChange={(e) => handleInputChange("endSalary", e.target.value)}
 								disabled={isLoading}
 							/>
 						</div>
@@ -132,9 +133,9 @@ function Registros() {
 							<Input
 								type="number"
 								placeholder="R$ 0,00"
-								value={filters.startSalaryCalculated || ""}
+								value={inputValues.startSalaryCalculated || ""}
 								onChange={(e) =>
-									handleFilterChange("startSalaryCalculated", e.target.value)
+									handleInputChange("startSalaryCalculated", e.target.value)
 								}
 								disabled={isLoading}
 							/>
@@ -147,9 +148,9 @@ function Registros() {
 							<Input
 								type="number"
 								placeholder="R$ 0,00"
-								value={filters.endSalaryCalculated || ""}
+								value={inputValues.endSalaryCalculated || ""}
 								onChange={(e) =>
-									handleFilterChange("endSalaryCalculated", e.target.value)
+									handleInputChange("endSalaryCalculated", e.target.value)
 								}
 								disabled={isLoading}
 							/>
@@ -161,10 +162,8 @@ function Registros() {
 							</label>
 							<Input
 								type="date"
-								value={filters.startDate || ""}
-								onChange={(e) =>
-									handleFilterChange("startDate", e.target.value)
-								}
+								value={inputValues.startDate || ""}
+								onChange={(e) => handleInputChange("startDate", e.target.value)}
 								disabled={isLoading}
 							/>
 						</div>
@@ -175,8 +174,8 @@ function Registros() {
 							</label>
 							<Input
 								type="date"
-								value={filters.endDate || ""}
-								onChange={(e) => handleFilterChange("endDate", e.target.value)}
+								value={inputValues.endDate || ""}
+								onChange={(e) => handleInputChange("endDate", e.target.value)}
 								disabled={isLoading}
 							/>
 						</div>
@@ -185,7 +184,7 @@ function Registros() {
 							<Button
 								variant="outline"
 								onClick={() => {
-									setFilters({});
+									setInputValues({});
 									setPagination((prev) => ({ ...prev, page: 0 }));
 								}}
 								className="w-full"
@@ -218,7 +217,7 @@ function Registros() {
 							pagination={paginationInfo}
 							onPageChange={handlePageChange}
 							onEmployeeFilterChange={handleEmployeeFilterChange}
-							employeeFilter={filters.employee || ""}
+							employeeFilter={inputValues.employee || ""}
 							isLoading={isLoading}
 						/>
 					</div>
