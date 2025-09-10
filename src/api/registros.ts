@@ -125,9 +125,11 @@ export const createRegistrosSWRKey = (
 	params: Partial<RegistrosApiParams>
 ): string => {
 	const cleanParams = Object.entries(params)
-		.filter(
-			([, value]) => value !== undefined && value !== null && value !== ""
-		)
+		.filter(([, value]) => {
+			if (value === undefined || value === null) return false;
+			if (typeof value === "string" && value === "") return false;
+			return true;
+		})
 		.reduce((acc, [key, value]) => {
 			acc[key] = value;
 			return acc;

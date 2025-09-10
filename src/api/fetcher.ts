@@ -86,9 +86,11 @@ export const fetcher = async <T>(
 
 export const buildQueryParams = (params: Record<string, unknown>): string => {
 	const cleanParams = Object.entries(params)
-		.filter(
-			([, value]) => value !== undefined && value !== null && value !== ""
-		)
+		.filter(([, value]) => {
+			if (value === undefined || value === null) return false;
+			if (typeof value === "string" && value === "") return false;
+			return true;
+		})
 		.map(([key, value]) => [key, String(value)]);
 
 	if (cleanParams.length === 0) return "";
