@@ -91,6 +91,69 @@ export const mockRegistros: Registro[] = [
 		calculatedAdmissionDate: "14 de outubro de 2021",
 		createdAt: "2021-10-14T07:15:00Z",
 	},
+	{
+		id: "mock-11",
+		employee: "Bruno Silva Lima",
+		salary: 4800,
+		calculatedSalary: 5280,
+		admissionDate: "2023-02-10",
+		calculatedAdmissionDate: "10 de fevereiro de 2023",
+		createdAt: "2023-02-10T14:30:00Z",
+	},
+	{
+		id: "mock-12",
+		employee: "Luciana Oliveira Santos",
+		salary: 6500,
+		calculatedSalary: 7150,
+		admissionDate: "2022-12-05",
+		calculatedAdmissionDate: "5 de dezembro de 2022",
+		createdAt: "2022-12-05T10:15:00Z",
+	},
+	{
+		id: "mock-13",
+		employee: "Ricardo Costa Pereira",
+		salary: 5300,
+		calculatedSalary: 5830,
+		admissionDate: "2023-08-22",
+		calculatedAdmissionDate: "22 de agosto de 2023",
+		createdAt: "2023-08-22T16:45:00Z",
+	},
+	{
+		id: "mock-14",
+		employee: "Vanessa Souza Rodrigues",
+		salary: 4100,
+		calculatedSalary: 4510,
+		admissionDate: "2023-05-18",
+		calculatedAdmissionDate: "18 de maio de 2023",
+		createdAt: "2023-05-18T11:20:00Z",
+	},
+	{
+		id: "mock-15",
+		employee: "Gustavo Almeida Silva",
+		salary: 7800,
+		calculatedSalary: 8580,
+		admissionDate: "2021-07-30",
+		calculatedAdmissionDate: "30 de julho de 2021",
+		createdAt: "2021-07-30T08:10:00Z",
+	},
+	{
+		id: "mock-16",
+		employee: "Priscila Ferreira Costa",
+		salary: 5900,
+		calculatedSalary: 6490,
+		admissionDate: "2022-09-15",
+		calculatedAdmissionDate: "15 de setembro de 2022",
+		createdAt: "2022-09-15T13:55:00Z",
+	},
+	{
+		id: "mock-17",
+		employee: "Marcos Henrique Lima",
+		salary: 6700,
+		calculatedSalary: 7370,
+		admissionDate: "2023-11-08",
+		calculatedAdmissionDate: "8 de novembro de 2023",
+		createdAt: "2023-11-08T09:25:00Z",
+	},
 ];
 
 export const mockRegistroDetail: Registro = {
@@ -111,17 +174,15 @@ export const createMockResponse = (
 	data: data.slice(page * limit, (page + 1) * limit),
 	pagination: {
 		total: data.length,
-		page: page + 1,
+		page,
 		limit,
 		totalPages: Math.ceil(data.length / limit),
 	},
 });
 
-// Simulate API delay for realistic UX
 export const simulateDelay = (ms: number = 300): Promise<void> =>
 	new Promise((resolve) => setTimeout(resolve, ms));
 
-// Check if app is running in view-only mode
 export const isViewOnlyMode = (): boolean => {
 	return import.meta.env.VITE_VIEW_ONLY === "true";
 };

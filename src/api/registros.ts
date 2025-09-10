@@ -4,7 +4,9 @@ import type {
 	RegistrosApiParams,
 	Registro,
 } from "@/types/registro";
+
 import type { CreateRegistroData, UpdateRegistroData } from "@/lib/validation";
+
 import {
 	mockRegistros,
 	mockRegistroDetail,
@@ -12,6 +14,14 @@ import {
 	simulateDelay,
 	isViewOnlyMode,
 } from "@/lib/mockData";
+
+type ApiResponse = {
+	total: number;
+	page: number;
+	totalPages: number;
+	limit: number;
+	data: Registro[];
+};
 
 export const fetchRegistros = async (
 	params: Partial<RegistrosApiParams>
@@ -29,7 +39,21 @@ export const fetchRegistros = async (
 	const queryString = buildQueryParams(params);
 	const url = `${import.meta.env.VITE_API_URL}/registros${queryString}`;
 
-	return fetcher(url);
+	const [error, apiResponse] = await fetcher<ApiResponse>(url);
+
+	if (error) return [error, null];
+
+	const transformedResponse: RegistrosResponse = {
+		data: apiResponse.data || [],
+		pagination: {
+			total: apiResponse.total || 0,
+			page: apiResponse.page || 0,
+			limit: apiResponse.limit || 8,
+			totalPages: apiResponse.totalPages || 0,
+		},
+	};
+
+	return [null, transformedResponse];
 };
 
 export const createRegistro = async (

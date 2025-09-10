@@ -187,12 +187,12 @@ export function DataTable<TData, TValue>({
 					</TableBody>
 				</Table>
 			</div>
-			{pagination && (
+			{pagination && pagination.totalPages > 1 && (
 				<div className="flex items-center justify-end space-x-2 py-4">
 					<div className="flex items-center space-x-6">
 						<div className="flex items-center space-x-2">
 							<p className="text-sm font-medium">
-								Página {pagination.page} de {pagination.totalPages}
+								Página {pagination.page + 1} de {pagination.totalPages}
 							</p>
 						</div>
 						<div className="flex items-center space-x-2">
@@ -200,7 +200,7 @@ export function DataTable<TData, TValue>({
 								variant="outline"
 								size="sm"
 								onClick={() => onPageChange?.(pagination.page - 1)}
-								disabled={pagination.page <= 1 || isLoading}
+								disabled={pagination.page <= 0 || isLoading}
 							>
 								Anterior
 							</Button>
@@ -208,7 +208,9 @@ export function DataTable<TData, TValue>({
 								variant="outline"
 								size="sm"
 								onClick={() => onPageChange?.(pagination.page + 1)}
-								disabled={pagination.page >= pagination.totalPages || isLoading}
+								disabled={
+									pagination.page >= pagination.totalPages - 1 || isLoading
+								}
 							>
 								Próximo
 							</Button>
