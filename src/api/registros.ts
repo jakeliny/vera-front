@@ -61,6 +61,16 @@ export const createRegistrosSWRKey = (
 	return JSON.stringify(["registros", cleanParams]);
 };
 
+export const deleteRegistro = async (
+	id: string
+): Promise<FetchResult<void>> => {
+	const url = `${import.meta.env.VITE_API_URL}/registros/${id}`;
+
+	return fetcher(url, {
+		method: "DELETE",
+	});
+};
+
 export const parseRegistrosSWRKey = (
 	key: string
 ): Partial<RegistrosApiParams> => {

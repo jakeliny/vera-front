@@ -1,10 +1,19 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Save } from "lucide-react";
+import { ArrowLeft, Save, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { updateRegistro } from "@/api/registros";
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@/components/ui/dialog";
+import { updateRegistro, deleteRegistro } from "@/api/registros";
 import { useRegistroDetails } from "@/hooks/useRegistroDetails";
 import { mutate as globalMutate } from "swr";
 import {
@@ -16,6 +25,8 @@ function RegistroDetails() {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
 	const [isUpdating, setIsUpdating] = useState(false);
+	const [isDeleting, setIsDeleting] = useState(false);
+	const [showDeleteDialog, setShowDeleteDialog] = useState(false);
 	const [formData, setFormData] = useState<UpdateRegistroData>({});
 	const [validationErrors, setValidationErrors] = useState<
 		Partial<Record<keyof UpdateRegistroData, string>>
@@ -91,6 +102,24 @@ function RegistroDetails() {
 		mutate();
 		globalMutate((key) => typeof key === "string" && key.includes("registros"));
 		setIsUpdating(false);
+	};
+
+	const handleDelete = async () => {
+		if (!id) return;
+
+		setIsDeleting(true);
+
+		const [deleteError] = await deleteRegistro(id);
+
+		if (deleteError) {
+			toast.error(deleteError.message || "Erro ao excluir registro");
+			setIsDeleting(false);
+			return;
+		}
+
+		toast.success("Registro excluído com sucesso!");
+		globalMutate((key) => typeof key === "string" && key.includes("registros"));
+		navigate("/registros");
 	};
 
 	if (isLoading) {
@@ -273,23 +302,70 @@ function RegistroDetails() {
 						</div>
 					</div>
 
-					<div className="flex justify-between sm:justify-end pt-6 border-t">
+					<div className="flex justify-between sm:justify-end items-center pt-6 border-t gap-4">
 						<Link to="/registros" className="sm:hidden">
 							<Button variant="outline" className="gap-2">
 								<ArrowLeft className="h-4 w-4" />
 								Voltar
 							</Button>
 						</Link>
-						<Button type="submit" disabled={isUpdating} className="gap-2">
-							{isUpdating ? (
-								"Salvando..."
-							) : (
-								<>
-									<Save className="h-4 w-4" />
-									Salvar
-								</>
-							)}
-						</Button>
+						<div className="flex gap-2">
+							<Dialog
+								open={showDeleteDialog}
+								onOpenChange={setShowDeleteDialog}
+							>
+								<DialogTrigger asChild>
+									<Button
+										variant="destructive"
+										className="gap-2"
+										disabled={isUpdating || isDeleting}
+									>
+										<Trash2 className="h-4 w-4" />
+										Excluir
+									</Button>
+								</DialogTrigger>
+								<DialogContent>
+									<DialogHeader>
+										<DialogTitle>
+											Tem certeza que deseja excluir esse registro?
+										</DialogTitle>
+										<DialogDescription>
+											Essa ação é irreversível.
+										</DialogDescription>
+									</DialogHeader>
+									<DialogFooter>
+										<Button
+											variant="outline"
+											onClick={() => setShowDeleteDialog(false)}
+											disabled={isDeleting}
+										>
+											Cancelar
+										</Button>
+										<Button
+											variant="destructive"
+											onClick={handleDelete}
+											disabled={isDeleting}
+										>
+											{isDeleting ? "Excluindo..." : "Excluir"}
+										</Button>
+									</DialogFooter>
+								</DialogContent>
+							</Dialog>
+							<Button
+								type="submit"
+								disabled={isUpdating || isDeleting}
+								className="gap-2"
+							>
+								{isUpdating ? (
+									"Atualizando..."
+								) : (
+									<>
+										<Save className="h-4 w-4" />
+										Atualizar
+									</>
+								)}
+							</Button>
+						</div>
 					</div>
 				</form>
 			</div>
