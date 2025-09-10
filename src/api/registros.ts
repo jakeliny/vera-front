@@ -6,13 +6,11 @@ import type {
 } from "@/types/registro";
 import type { CreateRegistroData, UpdateRegistroData } from "@/lib/validation";
 
-const API_BASE_URL = "http://localhost:3000";
-
 export const fetchRegistros = async (
 	params: Partial<RegistrosApiParams>
 ): Promise<FetchResult<RegistrosResponse>> => {
 	const queryString = buildQueryParams(params);
-	const url = `${API_BASE_URL}/registros${queryString}`;
+	const url = `${import.meta.env.VITE_API_URL}/registros${queryString}`;
 
 	return fetcher(url);
 };
@@ -20,7 +18,7 @@ export const fetchRegistros = async (
 export const createRegistro = async (
 	data: CreateRegistroData
 ): Promise<FetchResult<Registro>> => {
-	const url = `${API_BASE_URL}/registros`;
+	const url = `${import.meta.env.VITE_API_URL}/registros`;
 
 	return fetcher(url, {
 		method: "POST",
@@ -31,7 +29,7 @@ export const createRegistro = async (
 export const fetchRegistroById = async (
 	id: string
 ): Promise<FetchResult<Registro>> => {
-	const url = `${API_BASE_URL}/registros/${id}`;
+	const url = `${import.meta.env.VITE_API_URL}/registros/${id}`;
 
 	return fetcher(url);
 };
@@ -40,7 +38,7 @@ export const updateRegistro = async (
 	id: string,
 	data: UpdateRegistroData
 ): Promise<FetchResult<Registro>> => {
-	const url = `${API_BASE_URL}/registros/${id}`;
+	const url = `${import.meta.env.VITE_API_URL}/registros/${id}`;
 
 	return fetcher(url, {
 		method: "PATCH",
