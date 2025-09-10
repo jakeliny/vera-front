@@ -4,54 +4,46 @@ import { ArrowLeft, Save } from "lucide-react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { fetchRegistroById, updateRegistro } from "@/api/registros";
+import { updateRegistro } from "@/api/registros";
+import { useRegistroDetails } from "@/hooks/useRegistroDetails";
+import { mutate as globalMutate } from "swr";
 import {
 	UpdateRegistroSchema,
 	type UpdateRegistroData,
 } from "@/lib/validation";
-import type { Registro } from "@/types/registro";
 
 function RegistroDetails() {
 	const { id } = useParams<{ id: string }>();
 	const navigate = useNavigate();
-	const [registro, setRegistro] = useState<Registro | null>(null);
-	const [isLoading, setIsLoading] = useState(true);
 	const [isUpdating, setIsUpdating] = useState(false);
-	const [error, setError] = useState<string | null>(null);
 	const [formData, setFormData] = useState<UpdateRegistroData>({});
 	const [validationErrors, setValidationErrors] = useState<
 		Partial<Record<keyof UpdateRegistroData, string>>
 	>({});
+
+	const {
+		data: registro,
+		error: fetchError,
+		isLoading,
+		mutate,
+	} = useRegistroDetails(id);
 
 	useEffect(() => {
 		if (!id) {
 			navigate("/registros");
 			return;
 		}
-
-		const loadRegistro = async () => {
-			setIsLoading(true);
-			setError(null);
-
-			const [fetchError, data] = await fetchRegistroById(id);
-
-			if (fetchError) {
-				setError(fetchError.message);
-				setIsLoading(false);
-				return;
-			}
-
-			setRegistro(data);
-			setFormData({
-				employee: data.employee,
-				salary: data.salary,
-				admissionDate: data.admissionDate,
-			});
-			setIsLoading(false);
-		};
-
-		loadRegistro();
 	}, [id, navigate]);
+
+	useEffect(() => {
+		if (registro) {
+			setFormData({
+				employee: registro.employee,
+				salary: registro.salary,
+				admissionDate: registro.admissionDate,
+			});
+		}
+	}, [registro]);
 
 	const handleInputChange = (
 		key: keyof UpdateRegistroData,
@@ -87,7 +79,7 @@ function RegistroDetails() {
 
 		setIsUpdating(true);
 
-		const [updateError, updatedData] = await updateRegistro(id, formData);
+		const [updateError] = await updateRegistro(id, formData);
 
 		if (updateError) {
 			toast.error(updateError.message || "Erro ao atualizar registro");
@@ -96,7 +88,8 @@ function RegistroDetails() {
 		}
 
 		toast.success("Registro atualizado com sucesso");
-		setRegistro(updatedData);
+		mutate();
+		globalMutate((key) => typeof key === "string" && key.includes("registros"));
 		setIsUpdating(false);
 	};
 
@@ -122,7 +115,7 @@ function RegistroDetails() {
 		);
 	}
 
-	if (error) {
+	if (fetchError) {
 		return (
 			<div className="min-h-screen p-8">
 				<div className="max-w-2xl mx-auto">
@@ -138,8 +131,8 @@ function RegistroDetails() {
 						<h2 className="text-lg font-semibold text-red-800 mb-2">
 							Erro ao carregar registro
 						</h2>
-						<p className="text-red-600 mb-4">{error}</p>
-						<Button onClick={() => window.location.reload()} variant="outline">
+						<p className="text-red-600 mb-4">{fetchError.message}</p>
+						<Button onClick={() => mutate()} variant="outline">
 							Tentar novamente
 						</Button>
 					</div>
@@ -173,33 +166,21 @@ function RegistroDetails() {
 				>
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 						<div>
-							<label
-								htmlFor="id"
-								className="block text-sm font-medium text-gray-700 mb-1"
-							>
+							<label className="block text-sm font-medium text-gray-700 mb-1">
 								ID
 							</label>
-							<Input
-								id="id"
-								value={registro.id}
-								disabled
-								className="bg-gray-50"
-							/>
+							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
+								{registro.id}
+							</div>
 						</div>
 
 						<div>
-							<label
-								htmlFor="createdAt"
-								className="block text-sm font-medium text-gray-700 mb-1"
-							>
+							<label className="block text-sm font-medium text-gray-700 mb-1">
 								Data de Criação
 							</label>
-							<Input
-								id="createdAt"
-								value={new Date(registro.createdAt).toLocaleDateString("pt-BR")}
-								disabled
-								className="bg-gray-50"
-							/>
+							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
+								{new Date(registro.createdAt).toLocaleDateString("pt-BR")}
+							</div>
 						</div>
 
 						<div>
@@ -248,21 +229,15 @@ function RegistroDetails() {
 						</div>
 
 						<div>
-							<label
-								htmlFor="calculatedSalary"
-								className="block text-sm font-medium text-gray-700 mb-1"
-							>
+							<label className="block text-sm font-medium text-gray-700 mb-1">
 								Salário Calculado (R$)
 							</label>
-							<Input
-								id="calculatedSalary"
-								value={new Intl.NumberFormat("pt-BR", {
+							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
+								{new Intl.NumberFormat("pt-BR", {
 									style: "currency",
 									currency: "BRL",
 								}).format(registro.calculatedSalary)}
-								disabled
-								className="bg-gray-50"
-							/>
+							</div>
 						</div>
 
 						<div>
@@ -289,24 +264,12 @@ function RegistroDetails() {
 						</div>
 
 						<div>
-							<label
-								htmlFor="calculatedAdmissionDate"
-								className="block text-sm font-medium text-gray-700 mb-1"
-							>
+							<label className="block text-sm font-medium text-gray-700 mb-1">
 								Data de Admissão Calculada
 							</label>
-							<Input
-								id="calculatedAdmissionDate"
-								value={
-									registro.calculatedAdmissionDate
-										? new Date(
-												registro.calculatedAdmissionDate
-										  ).toLocaleDateString("pt-BR")
-										: "N/A"
-								}
-								disabled
-								className="bg-gray-50"
-							/>
+							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
+								{registro.calculatedAdmissionDate || "N/A"}
+							</div>
 						</div>
 					</div>
 

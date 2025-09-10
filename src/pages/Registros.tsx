@@ -53,10 +53,6 @@ function Registros() {
 		setPagination((prev) => ({ ...prev, page: newPage }));
 	};
 
-	const handleEmployeeFilterChange = (value: string) => {
-		handleInputChange("employee", value);
-	};
-
 	const handleSortChange = (
 		newOrderBy: RegistrosSortField | undefined,
 		newOrder: SortDirection | undefined
@@ -216,7 +212,7 @@ function Registros() {
 				{/* Add Button and Data Table */}
 				<div className="bg-white rounded-lg shadow-sm border">
 					<div className="p-6 border-b">
-						<div className="flex justify-between items-center">
+						<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
 							<h2 className="text-lg font-semibold text-gray-900">
 								Lista de Registros
 							</h2>
@@ -233,8 +229,6 @@ function Registros() {
 							data={data || []}
 							pagination={paginationInfo}
 							onPageChange={handlePageChange}
-							onEmployeeFilterChange={handleEmployeeFilterChange}
-							employeeFilter={inputValues.employee || ""}
 							isLoading={isLoading}
 							orderBy={orderBy}
 							order={order}

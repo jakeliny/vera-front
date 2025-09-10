@@ -41,8 +41,6 @@ interface DataTableProps<TData, TValue> {
 	data: TData[];
 	pagination?: PaginationInfo;
 	onPageChange?: (page: number) => void;
-	onEmployeeFilterChange?: (value: string) => void;
-	employeeFilter?: string;
 	isLoading?: boolean;
 	orderBy?: RegistrosSortField;
 	order?: SortDirection;
@@ -57,8 +55,6 @@ export function DataTable<TData, TValue>({
 	data,
 	pagination,
 	onPageChange,
-	onEmployeeFilterChange,
-	employeeFilter = "",
 	isLoading = false,
 	orderBy,
 	order,
@@ -102,14 +98,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<div className="w-full">
-			<div className="flex items-center py-4">
-				<Input
-					placeholder="Filtrar por funcionário..."
-					value={employeeFilter}
-					onChange={(event) => onEmployeeFilterChange?.(event.target.value)}
-					className="max-w-sm"
-					disabled={isLoading}
-				/>
+			<div className="flex items-center justify-end py-4">
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button variant="outline" className="ml-auto" disabled={isLoading}>
