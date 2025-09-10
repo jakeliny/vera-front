@@ -9,7 +9,9 @@ type UseRegistroDetailsReturn = {
 	mutate: () => void;
 };
 
-export const useRegistroDetails = (id: string | undefined): UseRegistroDetailsReturn => {
+export const useRegistroDetails = (
+	id: string | undefined
+): UseRegistroDetailsReturn => {
 	const swrKey = id ? `registro-${id}` : null;
 
 	const {

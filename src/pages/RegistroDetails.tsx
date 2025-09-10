@@ -150,7 +150,7 @@ function RegistroDetails() {
 			<div className="max-w-2xl mx-auto">
 				<div className="mb-6 flex items-center justify-between">
 					<Link to="/registros">
-						<Button variant="outline" className="gap-2">
+						<Button variant="outline" className="gap-2 hidden sm:flex">
 							<ArrowLeft className="h-4 w-4" />
 							Voltar
 						</Button>
@@ -273,7 +273,13 @@ function RegistroDetails() {
 						</div>
 					</div>
 
-					<div className="flex justify-end pt-6 border-t">
+					<div className="flex justify-between sm:justify-end pt-6 border-t">
+						<Link to="/registros" className="sm:hidden">
+							<Button variant="outline" className="gap-2">
+								<ArrowLeft className="h-4 w-4" />
+								Voltar
+							</Button>
+						</Link>
 						<Button type="submit" disabled={isUpdating} className="gap-2">
 							{isUpdating ? (
 								"Salvando..."
