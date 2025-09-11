@@ -1,14 +1,13 @@
 import { z } from "zod";
 
 export const ErrorMessages = {
-	DATE_FORMAT_INVALID: "Formato de data inválido. Use YYYY-MM-DD.",
-	ADMISSION_DATE_FUTURE: "A data de admissão não pode estar no futuro.",
-	SALARY_MUST_BE_POSITIVE: "O salário deve ser um valor positivo.",
-	SALARY_MINIMUM: "O salário mínimo é R$ 1,00.",
-	SALARY_MAXIMUM: "O salário máximo é R$ 100.000,00.",
-	EMPLOYEE_NAME_REQUIRED: "O nome do funcionário é obrigatório.",
-	EMPLOYEE_NAME_MAX_LENGTH:
-		"O nome do funcionário deve ter no máximo 30 caracteres.",
+	DATE_FORMAT_INVALID: "Invalid date format. Use YYYY-MM-DD.",
+	ADMISSION_DATE_FUTURE: "Admission date cannot be in the future.",
+	SALARY_MUST_BE_POSITIVE: "Salary must be a positive value.",
+	SALARY_MINIMUM: "Minimum salary is $1.00.",
+	SALARY_MAXIMUM: "Maximum salary is $100,000.00.",
+	EMPLOYEE_NAME_REQUIRED: "Employee name is required.",
+	EMPLOYEE_NAME_MAX_LENGTH: "Employee name must have at most 30 characters.",
 };
 
 const salary = {

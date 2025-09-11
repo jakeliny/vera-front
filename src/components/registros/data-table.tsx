@@ -101,7 +101,7 @@ export function DataTable<TData, TValue>({
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
 						<Button variant="outline" className="ml-auto" disabled={isLoading}>
-							Colunas <ChevronDown />
+							Columns <ChevronDown />
 						</Button>
 					</DropdownMenuTrigger>
 					<DropdownMenuContent align="end">
@@ -154,7 +154,7 @@ export function DataTable<TData, TValue>({
 								>
 									<div className="flex items-center justify-center">
 										<div className="animate-spin rounded-full h-6 w-6 border-b-2 border-gray-900"></div>
-										<span className="ml-2">Carregando...</span>
+										<span className="ml-2">Loading...</span>
 									</div>
 								</TableCell>
 							</TableRow>
@@ -180,7 +180,7 @@ export function DataTable<TData, TValue>({
 									colSpan={columns.length}
 									className="h-24 text-center"
 								>
-									Nenhum resultado encontrado.
+									No results found.
 								</TableCell>
 							</TableRow>
 						)}
@@ -192,7 +192,7 @@ export function DataTable<TData, TValue>({
 					<div className="flex items-center space-x-6">
 						<div className="flex items-center space-x-2">
 							<p className="text-sm font-medium">
-								Página {pagination.page + 1} de {pagination.totalPages}
+								Page {pagination.page + 1} of {pagination.totalPages}
 							</p>
 						</div>
 						<div className="flex items-center space-x-2">
@@ -202,7 +202,7 @@ export function DataTable<TData, TValue>({
 								onClick={() => onPageChange?.(pagination.page - 1)}
 								disabled={pagination.page <= 0 || isLoading}
 							>
-								Anterior
+								Previous
 							</Button>
 							<Button
 								variant="outline"
@@ -212,7 +212,7 @@ export function DataTable<TData, TValue>({
 									pagination.page >= pagination.totalPages - 1 || isLoading
 								}
 							>
-								Próximo
+								Next
 							</Button>
 						</div>
 					</div>

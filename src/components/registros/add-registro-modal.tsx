@@ -75,12 +75,12 @@ export function AddRegistroModal({
 		const [error] = await createRegistro(formData);
 
 		if (error) {
-			toast.error(error.message || "Erro ao criar registro");
+			toast.error(error.message || "Error creating record");
 			setIsSubmitting(false);
 			return;
 		}
 
-		toast.success("Registro cadastrado com sucesso");
+		toast.success("Record created successfully");
 		setFormData({ employee: "", salary: 0, admissionDate: "" });
 		setErrors({});
 		setOpen(false);
@@ -107,15 +107,14 @@ export function AddRegistroModal({
 					data-testid="add-registro-button"
 				>
 					<Plus className="h-4 w-4" />
-					Adicionar novo registro
+					Add new record
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-md">
 				<DialogHeader>
-					<DialogTitle>Adicionar Novo Registro</DialogTitle>
+					<DialogTitle>Add New Record</DialogTitle>
 					<DialogDescription>
-						Preencha os campos abaixo para adicionar um novo registro de
-						funcionário.
+						Fill in the fields below to add a new employee record.
 					</DialogDescription>
 				</DialogHeader>
 				<form onSubmit={handleSubmit} className="space-y-4">
@@ -124,13 +123,13 @@ export function AddRegistroModal({
 							htmlFor="employee"
 							className="block text-sm font-medium text-gray-700 mb-1"
 						>
-							Nome do Funcionário
+							Employee Name
 						</label>
 						<Input
 							id="employee"
 							value={formData.employee}
 							onChange={(e) => handleInputChange("employee", e.target.value)}
-							placeholder="Digite o nome do funcionário"
+							placeholder="Enter employee name"
 							disabled={isSubmitting}
 						/>
 						{errors.employee && (
@@ -143,7 +142,7 @@ export function AddRegistroModal({
 							htmlFor="salary"
 							className="block text-sm font-medium text-gray-700 mb-1"
 						>
-							Salário (R$)
+							Salary ($)
 						</label>
 						<Input
 							id="salary"
@@ -167,7 +166,7 @@ export function AddRegistroModal({
 							htmlFor="admissionDate"
 							className="block text-sm font-medium text-gray-700 mb-1"
 						>
-							Data de Admissão
+							Admission Date
 						</label>
 						<Input
 							id="admissionDate"
@@ -192,10 +191,10 @@ export function AddRegistroModal({
 							onClick={() => handleOpenChange(false)}
 							disabled={isSubmitting}
 						>
-							Cancelar
+							Cancel
 						</Button>
 						<Button type="submit" disabled={isSubmitting}>
-							{isSubmitting ? "Salvando..." : "Salvar"}
+							{isSubmitting ? "Saving..." : "Save"}
 						</Button>
 					</DialogFooter>
 				</form>

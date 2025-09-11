@@ -7,7 +7,7 @@ export const mockRegistros: Registro[] = [
 		salary: 4500,
 		calculatedSalary: 4950,
 		admissionDate: "2023-03-15",
-		calculatedAdmissionDate: "26 dias, 5 meses e 2 anos",
+		calculatedAdmissionDate: "26 days, 5 months and 2 years",
 		createdAt: "2023-03-15T10:30:00Z",
 	},
 	{
@@ -16,7 +16,7 @@ export const mockRegistros: Registro[] = [
 		salary: 6200,
 		calculatedSalary: 6820,
 		admissionDate: "2022-11-08",
-		calculatedAdmissionDate: "2 dias, 10 meses e 2 anos",
+		calculatedAdmissionDate: "2 days, 10 months and 2 years",
 		createdAt: "2022-11-08T14:15:00Z",
 	},
 	{
@@ -25,7 +25,7 @@ export const mockRegistros: Registro[] = [
 		salary: 5800,
 		calculatedSalary: 6380,
 		admissionDate: "2023-01-20",
-		calculatedAdmissionDate: "21 dias, 7 meses e 2 anos",
+		calculatedAdmissionDate: "21 days, 7 months and 2 years",
 		createdAt: "2023-01-20T09:45:00Z",
 	},
 	{
@@ -34,7 +34,7 @@ export const mockRegistros: Registro[] = [
 		salary: 7500,
 		calculatedSalary: 8250,
 		admissionDate: "2021-09-12",
-		calculatedAdmissionDate: "29 dias, 11 meses e 3 anos",
+		calculatedAdmissionDate: "29 days, 11 months and 3 years",
 		createdAt: "2021-09-12T16:20:00Z",
 	},
 	{
@@ -43,7 +43,7 @@ export const mockRegistros: Registro[] = [
 		salary: 3800,
 		calculatedSalary: 4180,
 		admissionDate: "2023-06-05",
-		calculatedAdmissionDate: "5 dias, 3 meses e 2 anos",
+		calculatedAdmissionDate: "5 days, 3 months and 2 years",
 		createdAt: "2023-06-05T11:10:00Z",
 	},
 	{
@@ -52,7 +52,7 @@ export const mockRegistros: Registro[] = [
 		salary: 5200,
 		calculatedSalary: 5720,
 		admissionDate: "2022-08-30",
-		calculatedAdmissionDate: "11 dias, 1 mês e 3 anos",
+		calculatedAdmissionDate: "11 days, 1 month and 3 years",
 		createdAt: "2022-08-30T13:25:00Z",
 	},
 	{
@@ -61,7 +61,7 @@ export const mockRegistros: Registro[] = [
 		salary: 6800,
 		calculatedSalary: 7480,
 		admissionDate: "2021-12-03",
-		calculatedAdmissionDate: "7 dias, 9 meses e 3 anos",
+		calculatedAdmissionDate: "7 days, 9 months and 3 years",
 		createdAt: "2021-12-03T08:40:00Z",
 	},
 	{
@@ -70,7 +70,7 @@ export const mockRegistros: Registro[] = [
 		salary: 4200,
 		calculatedSalary: 4620,
 		admissionDate: "2023-04-18",
-		calculatedAdmissionDate: "23 dias, 4 meses e 2 anos",
+		calculatedAdmissionDate: "23 days, 4 months and 2 years",
 		createdAt: "2023-04-18T15:55:00Z",
 	},
 	{
@@ -79,7 +79,7 @@ export const mockRegistros: Registro[] = [
 		salary: 5600,
 		calculatedSalary: 6160,
 		admissionDate: "2022-07-25",
-		calculatedAdmissionDate: "16 dias, 1 mês e 3 anos",
+		calculatedAdmissionDate: "16 days, 1 month and 3 years",
 		createdAt: "2022-07-25T12:30:00Z",
 	},
 	{
@@ -88,7 +88,7 @@ export const mockRegistros: Registro[] = [
 		salary: 7200,
 		calculatedSalary: 7920,
 		admissionDate: "2021-10-14",
-		calculatedAdmissionDate: "27 dias, 10 meses e 3 anos",
+		calculatedAdmissionDate: "27 days, 10 months and 3 years",
 		createdAt: "2021-10-14T07:15:00Z",
 	},
 	{
@@ -97,7 +97,7 @@ export const mockRegistros: Registro[] = [
 		salary: 4800,
 		calculatedSalary: 5280,
 		admissionDate: "2023-02-10",
-		calculatedAdmissionDate: "31 dias, 6 meses e 2 anos",
+		calculatedAdmissionDate: "31 days, 6 months and 2 years",
 		createdAt: "2023-02-10T14:30:00Z",
 	},
 	{
@@ -106,7 +106,7 @@ export const mockRegistros: Registro[] = [
 		salary: 6500,
 		calculatedSalary: 7150,
 		admissionDate: "2022-12-05",
-		calculatedAdmissionDate: "5 dias, 9 meses e 2 anos",
+		calculatedAdmissionDate: "5 days, 9 months and 2 years",
 		createdAt: "2022-12-05T10:15:00Z",
 	},
 	{
@@ -115,7 +115,7 @@ export const mockRegistros: Registro[] = [
 		salary: 5300,
 		calculatedSalary: 5830,
 		admissionDate: "2023-08-22",
-		calculatedAdmissionDate: "19 dias, 0 meses e 2 anos",
+		calculatedAdmissionDate: "19 days, 0 months and 2 years",
 		createdAt: "2023-08-22T16:45:00Z",
 	},
 	{
@@ -124,7 +124,7 @@ export const mockRegistros: Registro[] = [
 		salary: 4100,
 		calculatedSalary: 4510,
 		admissionDate: "2023-05-18",
-		calculatedAdmissionDate: "23 dias, 3 meses e 2 anos",
+		calculatedAdmissionDate: "23 days, 3 months and 2 years",
 		createdAt: "2023-05-18T11:20:00Z",
 	},
 	{
@@ -133,7 +133,7 @@ export const mockRegistros: Registro[] = [
 		salary: 7800,
 		calculatedSalary: 8580,
 		admissionDate: "2021-07-30",
-		calculatedAdmissionDate: "11 dias, 1 mês e 4 anos",
+		calculatedAdmissionDate: "11 days, 1 month and 4 years",
 		createdAt: "2021-07-30T08:10:00Z",
 	},
 	{
@@ -142,7 +142,7 @@ export const mockRegistros: Registro[] = [
 		salary: 5900,
 		calculatedSalary: 6490,
 		admissionDate: "2022-09-15",
-		calculatedAdmissionDate: "26 dias, 11 meses e 2 anos",
+		calculatedAdmissionDate: "26 days, 11 months and 2 years",
 		createdAt: "2022-09-15T13:55:00Z",
 	},
 	{
@@ -151,18 +151,18 @@ export const mockRegistros: Registro[] = [
 		salary: 6700,
 		calculatedSalary: 7370,
 		admissionDate: "2023-11-08",
-		calculatedAdmissionDate: "2 dias, 10 meses e 1 ano",
+		calculatedAdmissionDate: "2 days, 10 months and 1 year",
 		createdAt: "2023-11-08T09:25:00Z",
 	},
 ];
 
 export const mockRegistroDetail: Registro = {
 	id: "mock-detail",
-	employee: "Funcionário de Demonstração",
+	employee: "Demo Employee",
 	salary: 5000,
 	calculatedSalary: 5500,
 	admissionDate: "2023-01-15",
-	calculatedAdmissionDate: "26 dias, 7 meses e 2 anos",
+	calculatedAdmissionDate: "26 days, 7 months and 2 years",
 	createdAt: "2023-01-15T10:00:00Z",
 };
 

@@ -93,12 +93,12 @@ function RegistroDetails() {
 		const [updateError] = await updateRegistro(id, formData);
 
 		if (updateError) {
-			toast.error(updateError.message || "Erro ao atualizar registro");
+			toast.error(updateError.message || "Error updating record");
 			setIsUpdating(false);
 			return;
 		}
 
-		toast.success("Registro atualizado com sucesso");
+		toast.success("Record updated successfully");
 		mutate();
 		globalMutate((key) => typeof key === "string" && key.includes("registros"));
 		setIsUpdating(false);
@@ -112,12 +112,12 @@ function RegistroDetails() {
 		const [deleteError] = await deleteRegistro(id);
 
 		if (deleteError) {
-			toast.error(deleteError.message || "Erro ao excluir registro");
+			toast.error(deleteError.message || "Error deleting record");
 			setIsDeleting(false);
 			return;
 		}
 
-		toast.success("Registro excluído com sucesso!");
+		toast.success("Record deleted successfully!");
 		globalMutate((key) => typeof key === "string" && key.includes("registros"));
 		navigate("/registros");
 	};
@@ -152,17 +152,17 @@ function RegistroDetails() {
 						<Link to="/registros">
 							<Button variant="outline" className="gap-2">
 								<ArrowLeft className="h-4 w-4" />
-								Voltar
+								Back
 							</Button>
 						</Link>
 					</div>
 					<div className="bg-red-50 border border-red-200 rounded-lg p-6">
 						<h2 className="text-lg font-semibold text-red-800 mb-2">
-							Erro ao carregar registro
+							Error loading record
 						</h2>
 						<p className="text-red-600 mb-4">{fetchError.message}</p>
 						<Button onClick={() => mutate()} variant="outline">
-							Tentar novamente
+							Try again
 						</Button>
 					</div>
 				</div>
@@ -184,9 +184,7 @@ function RegistroDetails() {
 							Voltar
 						</Button>
 					</Link>
-					<h1 className="text-2xl font-bold text-gray-900">
-						Detalhes do Registro
-					</h1>
+					<h1 className="text-2xl font-bold text-gray-900">Record Details</h1>
 				</div>
 
 				<form
@@ -205,7 +203,7 @@ function RegistroDetails() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Data de Criação
+								Creation Date
 							</label>
 							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
 								{new Date(registro.createdAt).toLocaleDateString("pt-BR")}
@@ -217,7 +215,7 @@ function RegistroDetails() {
 								htmlFor="employee"
 								className="block text-sm font-medium text-gray-700 mb-1"
 							>
-								Nome do Funcionário
+								Employee Name
 							</label>
 							<Input
 								id="employee"
@@ -237,7 +235,7 @@ function RegistroDetails() {
 								htmlFor="salary"
 								className="block text-sm font-medium text-gray-700 mb-1"
 							>
-								Salário (R$)
+								Salary ($)
 							</label>
 							<Input
 								id="salary"
@@ -259,7 +257,7 @@ function RegistroDetails() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Calculado (35%)
+								Calculated Salary (35%)
 							</label>
 							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
 								{new Intl.NumberFormat("pt-BR", {
@@ -294,7 +292,7 @@ function RegistroDetails() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Data de Admissão Calculada
+								Calculated Admission Date
 							</label>
 							<div className="px-3 py-2 text-sm text-gray-900 bg-gray-50 border border-gray-200 rounded-md">
 								{registro.calculatedAdmissionDate || "N/A"}
@@ -306,7 +304,7 @@ function RegistroDetails() {
 						<Link to="/registros" className="sm:hidden">
 							<Button variant="outline" className="gap-2">
 								<ArrowLeft className="h-4 w-4" />
-								Voltar
+								Back
 							</Button>
 						</Link>
 						<div className="flex gap-2">
@@ -321,16 +319,16 @@ function RegistroDetails() {
 										disabled={isUpdating || isDeleting}
 									>
 										<Trash2 className="h-4 w-4" />
-										Excluir
+										Delete
 									</Button>
 								</DialogTrigger>
 								<DialogContent>
 									<DialogHeader>
 										<DialogTitle>
-											Tem certeza que deseja excluir esse registro?
+											Are you sure you want to delete this record?
 										</DialogTitle>
 										<DialogDescription>
-											Essa ação é irreversível.
+											This action is irreversible.
 										</DialogDescription>
 									</DialogHeader>
 									<DialogFooter>
@@ -339,14 +337,14 @@ function RegistroDetails() {
 											onClick={() => setShowDeleteDialog(false)}
 											disabled={isDeleting}
 										>
-											Cancelar
+											Cancel
 										</Button>
 										<Button
 											variant="destructive"
 											onClick={handleDelete}
 											disabled={isDeleting}
 										>
-											{isDeleting ? "Excluindo..." : "Excluir"}
+											{isDeleting ? "Deleting..." : "Delete"}
 										</Button>
 									</DialogFooter>
 								</DialogContent>
@@ -357,11 +355,11 @@ function RegistroDetails() {
 								className="gap-2"
 							>
 								{isUpdating ? (
-									"Atualizando..."
+									"Updating..."
 								) : (
 									<>
 										<Save className="h-4 w-4" />
-										Atualizar
+										Update
 									</>
 								)}
 							</Button>

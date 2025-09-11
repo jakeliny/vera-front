@@ -14,7 +14,7 @@ export const columns: ColumnDef<Registro>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Funcionário
+					Employee
 					<ArrowUpDown />
 				</Button>
 			);
@@ -33,7 +33,7 @@ export const columns: ColumnDef<Registro>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Salário
+					Salary
 					<ArrowUpDown />
 				</Button>
 			);
@@ -49,7 +49,7 @@ export const columns: ColumnDef<Registro>[] = [
 	},
 	{
 		accessorKey: "calculatedSalary",
-		header: "Salário Calculado (35%)",
+		header: "Calculated Salary (35%)",
 		cell: ({ row }) => {
 			const calculatedSalary = parseFloat(row.getValue("calculatedSalary"));
 			const formatted = new Intl.NumberFormat("pt-BR", {
@@ -67,7 +67,7 @@ export const columns: ColumnDef<Registro>[] = [
 					variant="ghost"
 					onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
 				>
-					Data de Admissão
+					Admission Date
 					<ArrowUpDown />
 				</Button>
 			);
@@ -83,7 +83,7 @@ export const columns: ColumnDef<Registro>[] = [
 	},
 	{
 		accessorKey: "calculatedAdmissionDate",
-		header: "Data de Admissão Calculada",
+		header: "Calculated Admission Date",
 		cell: ({ row }) => (
 			<div className="text-left font-medium">
 				{row.getValue("calculatedAdmissionDate")}
@@ -92,7 +92,7 @@ export const columns: ColumnDef<Registro>[] = [
 	},
 	{
 		id: "view",
-		header: "Visualizar",
+		header: "View",
 		enableHiding: false,
 		cell: ({ row }) => {
 			const registro = row.original;
@@ -101,7 +101,7 @@ export const columns: ColumnDef<Registro>[] = [
 				<div className="text-left px-4">
 					<Link to={`/registros/${registro.id}`}>
 						<Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-							<span className="sr-only">Ver detalhes</span>
+							<span className="sr-only">View details</span>
 							<AiOutlineEye className="h-4 w-4" />
 						</Button>
 					</Link>

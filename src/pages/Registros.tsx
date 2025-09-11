@@ -68,13 +68,13 @@ function Registros() {
 				<div className="max-w-7xl mx-auto">
 					<div className="bg-red-50 border border-red-200 rounded-lg p-6">
 						<h2 className="text-lg font-semibold text-red-800 mb-2">
-							Erro ao carregar dados
+							Error loading data
 						</h2>
 						<p className="text-red-600 mb-4">
-							{error.message || "Ocorreu um erro ao buscar os registros."}
+							{error.message || "An error occurred while fetching records."}
 						</p>
 						<Button onClick={() => mutate()} variant="outline">
-							Tentar novamente
+							Try again
 						</Button>
 					</div>
 				</div>
@@ -86,25 +86,25 @@ function Registros() {
 		<div className="min-h-screen p-8">
 			<div className="max-w-7xl mx-auto">
 				<div className="mb-8">
-					<h1 className="text-3xl font-bold text-gray-900 mb-2">Registros</h1>
+					<h1 className="text-3xl font-bold text-gray-900 mb-2">Records</h1>
 					<p className="text-gray-600">
-						Gerenciamento de registros de funcionários e análise de renda.
+						Employee records management and income analysis.
 					</p>
 				</div>
 
 				{/* Filters Section */}
 				<div className="bg-white p-6 rounded-lg shadow-sm border mb-8">
 					<h2 className="text-lg font-semibold text-gray-900 mb-4">
-						Filtros de Busca
+						Search Filters
 					</h2>
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Funcionário
+								Employee
 							</label>
 							<Input
-								placeholder="Nome do funcionário"
+								placeholder="Employee name"
 								value={inputValues.employee || ""}
 								onChange={(e) => handleInputChange("employee", e.target.value)}
 								disabled={isLoading}
@@ -113,11 +113,11 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Inicial
+								Initial Salary
 							</label>
 							<Input
 								type="number"
-								placeholder="R$ 0,00"
+								placeholder="$ 0.00"
 								value={inputValues.startSalary || ""}
 								onChange={(e) =>
 									handleInputChange("startSalary", e.target.value)
@@ -128,11 +128,11 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Final
+								Final Salary
 							</label>
 							<Input
 								type="number"
-								placeholder="R$ 0,00"
+								placeholder="$ 0.00"
 								value={inputValues.endSalary || ""}
 								onChange={(e) => handleInputChange("endSalary", e.target.value)}
 								disabled={isLoading}
@@ -141,11 +141,11 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Calculado (35%) Inicial
+								Initial Calculated Salary (35%)
 							</label>
 							<Input
 								type="number"
-								placeholder="R$ 0,00"
+								placeholder="$ 0.00"
 								value={inputValues.startSalaryCalculated || ""}
 								onChange={(e) =>
 									handleInputChange("startSalaryCalculated", e.target.value)
@@ -156,11 +156,11 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Salário Calculado (35%) Final
+								Final Calculated Salary (35%)
 							</label>
 							<Input
 								type="number"
-								placeholder="R$ 0,00"
+								placeholder="$ 0.00"
 								value={inputValues.endSalaryCalculated || ""}
 								onChange={(e) =>
 									handleInputChange("endSalaryCalculated", e.target.value)
@@ -171,7 +171,7 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Data Admissão Inicial
+								Initial Admission Date
 							</label>
 							<Input
 								type="date"
@@ -183,7 +183,7 @@ function Registros() {
 
 						<div>
 							<label className="block text-sm font-medium text-gray-700 mb-1">
-								Data Admissão Final
+								Final Admission Date
 							</label>
 							<Input
 								type="date"
@@ -203,7 +203,7 @@ function Registros() {
 								className="w-full"
 								disabled={isLoading}
 							>
-								Limpar Filtros
+								Clear Filters
 							</Button>
 						</div>
 					</div>
@@ -214,7 +214,7 @@ function Registros() {
 					<div className="p-6 border-b">
 						<div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
 							<h2 className="text-lg font-semibold text-gray-900">
-								Lista de Registros
+								Records List
 							</h2>
 							<AddRegistroModal
 								onSuccess={() => mutate()}

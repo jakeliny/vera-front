@@ -14,11 +14,11 @@ function Home() {
 				<h1 className="text-6xl font-bold text-gray-900 mb-6">V.E.R.A</h1>
 
 				<p className="text-xl text-gray-600 mb-12 leading-relaxed">
-					<strong>V.E.R.A</strong> é um acrônimo para "Valor Efetivo de Renda
-					Analisada". O serviço processa a renda e tempo de trabalho de um
-					profissional para embasar análises de crédito, oferecendo uma API
-					RESTful robusta para gerenciamento de registros de funcionários com
-					cálculos automáticos de salário e análise de tempo de serviço.
+					<strong>V.E.R.A</strong> is an acronym for "Value Effective Revenue
+					Analyzed". The service processes income and work time of a
+					professional to support credit analysis, offering a robust RESTful API
+					for employee record management with automatic salary calculations and
+					service time analysis.
 				</p>
 
 				<Button
@@ -26,7 +26,7 @@ function Home() {
 					onClick={handleNavigateToRegistros}
 					className="text-lg px-8 py-4"
 				>
-					Acessar Registros
+					Access Records
 				</Button>
 			</div>
 		</div>
