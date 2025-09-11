@@ -1,115 +1,115 @@
-# V.E.R.A — Valor Efetivo de Renda Analisada
+# V.E.R.A — Value Effective Revenue Analyzed
 
-V.E.R.A é um acrônimo para **Valor Efetivo de Renda Analisada**, um serviço que processa a renda e o tempo de trabalho de um profissional para embasar análises de crédito. A aplicação foi desenvolvida com uma abordagem componentizada e orientada a dados, projetada para ser performática e de fácil manutenção.
+V.E.R.A is an acronym for **Value Effective Revenue Analyzed**, a service that processes income and work time of a professional to support credit analysis. The application was developed with a componentized and data-oriented approach, designed to be performant and easy to maintain.
 
-## Stack de Tecnologia
+## Technology Stack
 
-- **React** - Biblioteca de JavaScript para criar interfaces de usuário
-- **TypeScript** - Tipagem estática para melhorar a experiência de desenvolvimento
-- **Vite** - Ferramenta de build rápida para desenvolvimento
-- **Tailwind CSS** - Biblioteca CSS para estilização
-- **Shadcn/ui** - Biblioteca de componentes baseada em Radix UI
-- **pnpm** - Gerenciador de pacotes rápido e eficiente
-- **SWR** - Fetching de dados com cache e revalidação
-- **React Router** - Gerenciamento de rotas
-- **Tanstack Table** - Tabela com ordenação e paginação
-- **React Hook Form + Zod** - Formulários com validação
-- **Cypress** - Testes end-to-end
+- **React** - JavaScript library for creating user interfaces
+- **TypeScript** - Static typing to improve development experience
+- **Vite** - Fast build tool for development
+- **Tailwind CSS** - CSS library for styling
+- **Shadcn/ui** - Component library based on Radix UI
+- **pnpm** - Fast and efficient package manager
+- **SWR** - Data fetching with cache and revalidation
+- **React Router** - Route management
+- **Tanstack Table** - Table with sorting and pagination
+- **React Hook Form + Zod** - Forms with validation
+- **Cypress** - End-to-end testing
 
-## Arquitetura do Projeto
+## Project Architecture
 
-O projeto segue uma arquitetura limpa, seguindo os princípios de separação de responsabilidades (separation of concerns), garantindo que a lógica de negócio `hooks`, a camada de dados `api` e a apresentação `components` estejam desacopladas.
+The project follows a clean architecture, following separation of concerns principles, ensuring that business logic `hooks`, data layer `api`, and presentation `components` are decoupled.
 
 ```
 src/
-├── api/           # Camada de API
-├── components/    # Componentes de UI
+├── api/           # API layer
+├── components/    # UI components
 ├── hooks/         # Custom hooks
-├── lib/           # Funções utilitárias e configurações
-├── pages/         # Componentes de rotas
-└── types/         # Definições de tipos TypeScript
+├── lib/           # Utility functions and configurations
+├── pages/         # Route components
+└── types/         # TypeScript type definitions
 ```
 
-### Principais Recursos
+### Main Features
 
-- **Filtros**: Busca com debounce e critérios múltiplos
-- **Ordenação por Colunas**: Todas as colunas com sort asc/desc
-- **Design Responsivo**: Abordagem mobile-first com breakpoints
-- **Validação de Dados**: Validação client-side com schemas Zod
-- **Atualizações e Cache**: Gerenciamento de cache do SWR para atualizações em tempo real
-- **Modo View-Only**: Suporte a dados de mock para visualizar a UI sem backend
-- **Testes End-to-End**: Cobertura de testes com Cypress
+- **Filters**: Search with debounce and multiple criteria
+- **Column Sorting**: All columns with asc/desc sort
+- **Responsive Design**: Mobile-first approach with breakpoints
+- **Data Validation**: Client-side validation with Zod schemas
+- **Updates and Cache**: SWR cache management for real-time updates
+- **View-Only Mode**: Support for mock data to view UI without backend
+- **End-to-End Tests**: Test coverage with Cypress
 
-## Configuração e Instalação
+## Setup and Installation
 
-### Pré-requisitos
+### Prerequisites
 
 - Node.js >= 18
 - pnpm >= 8
 
-### Instalação
+### Installation
 
 ```bash
-# Instale as dependências
+# Install dependencies
 pnpm install
 
-# Configure as variáveis de ambiente
+# Configure environment variables
 cp .env_example .env
 
-# Inicialize a aplicação
+# Initialize the application
 pnpm dev
 ```
 
-## Modo View-Only (Mock)
+## View-Only Mode (Mock)
 
-A aplicação suporta o modo para visualização de dados sem backend, controlado pela variável de ambiente `VITE_VIEW_ONLY`.
+The application supports view-only mode for data visualization without backend, controlled by the `VITE_VIEW_ONLY` environment variable.
 
-- `VITE_VIEW_ONLY=true`: Apresenta dados de mock.
+- `VITE_VIEW_ONLY=true`: Displays mock data.
 
-- `VITE_VIEW_ONLY=false`: Apresenta dados reais.
+- `VITE_VIEW_ONLY=false`: Displays real data.
 
-### Comportamento no Modo View-Only
+### Behavior in View-Only Mode
 
-- **Exibição de Dados**: A tabela mostra 10 registros (mock)
-- **Elementos Interativos**: Botões e formulários permanecem funcionais
-- **Sem Chamadas de API**: As requisições retornam mock com atrasos realistas
-- **Interações de Formulário**: É possível digitar e enviar, com mensagens de sucesso
-- **Detalhe Estático**: Páginas de detalhe exibem sempre o mesmo registro (mock)
-- **Filtros**: É possível digitar nos filtros, mas não há filtragem real
+- **Data Display**: The table shows 10 records (mock)
+- **Interactive Elements**: Buttons and forms remain functional
+- **No API Calls**: Requests return mock with realistic delays
+- **Form Interactions**: You can type and submit, with success messages
+- **Static Detail**: Detail pages always show the same record (mock)
+- **Filters**: You can type in filters, but there is no real filtering
 
-## Scripts Principais
+## Main Scripts
 
-| Script              | Descrição                                     |
-| :------------------ | :-------------------------------------------- |
-| `pnpm dev`          | Inicia a aplicação em modo de desenvolvimento |
-| `pnpm build`        | Gera a build de produção                      |
-| `pnpm preview`      | Serve a build de produção localmente          |
-| `pnpm lint`         | Executa o linting do código                   |
-| `pnpm cypress:open` | Executa o Cypress Test Runner                 |
-| `pnpm cypress:run`  | Executa o Cypress em modo headless            |
+| Script              | Description                                |
+| :------------------ | :----------------------------------------- |
+| `pnpm dev`          | Starts the application in development mode |
+| `pnpm build`        | Generates the production build             |
+| `pnpm preview`      | Serves the production build locally        |
+| `pnpm lint`         | Runs code linting                          |
+| `pnpm cypress:open` | Runs the Cypress Test Runner               |
+| `pnpm cypress:run`  | Runs Cypress in headless mode              |
 
-## Testes
+## Tests
 
-Para desenvolvimento e debug:
+For development and debug:
 
 ```bash
 pnpm cypress:open
 ```
 
-Para CI/CD e automação:
+For CI/CD and automation:
 
 ```bash
 pnpm cypress:run
 ```
 
-## Padrão de trabalho
+## Work Pattern
 
-1. Crie uma branch de funcionalidade
-2. Faça suas alterações
-3. Adicione testes para nova funcionalidade
-4. Certifique-se que todos os testes passam
-5. Envie um pull request
+1. Create a feature branch
+2. Make your changes
+3. Add tests for new functionality
+4. Make sure all tests pass
+5. Send a pull request
 
-## Licença
+## License
 
-Este projeto está licenciado sob a Licença MIT.
+This project is licensed under the MIT License.
